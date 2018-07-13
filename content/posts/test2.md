@@ -1,7 +1,7 @@
 ---
-path: "/hello-world2"
+path: "/what"
 date: "2017-07-12T17:12:33.962Z"
-title: "TOTO 1"
+title: "TOTO 2"
 category: "toto"
 ---
 

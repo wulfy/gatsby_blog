@@ -14,9 +14,8 @@ const HTML = (props) => (
           {props.headComponents}
           <link rel="shortcut icon" href={favicon} />
           {css}
-        </head>
+        </head> 
         <body>
-        	<h1> My title </h1>
           <div
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: props.body }}
