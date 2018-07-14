@@ -1,7 +1,8 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import {CAT_IMG, DEFAULT_IMG, HOME_IMG} from '../common/constant.js'
+import {CAT_IMG, DEFAULT_IMG, HOME_IMG} from '../common/constant'
 import _ from 'lodash'
+import Menu from '../components/menu'
 
 function* entries(obj) {
    for (let key of Object.keys(obj)) {
@@ -59,6 +60,7 @@ class IndexPage extends React.Component {
   	  	const { edges: posts } = this.props.data.allMarkdownRemark;
   	  	let catList = [];
   	  	let postsList = [];
+  	  	const categories = [];
   	  	const SemiContainer = (props)=><div {...props} style={{width:'50%', height:'100%', float: 'left', overflow: 'hidden',...props.style}}/>;
 		const ImagedContainer = (props)=> {
 			const backgroundStyle = {backgroundImage:`url(${HOME_IMG})`};
@@ -72,6 +74,7 @@ class IndexPage extends React.Component {
   	  	const postByCats = _.groupBy(posts, "node.frontmatter.category");
 
 		_.forEach(postByCats,(posts,category) => {
+			categories.push(category);
 			const categoryImage = getCatImage(category);
 			const postsListItems = posts.reduce((acc, {node:{frontmatter}}) => {
 				acc.push(<li key={frontmatter.title}><Link to={frontmatter.path}>{frontmatter.title}</Link></li>);
@@ -86,6 +89,7 @@ class IndexPage extends React.Component {
 		
   	  	return (
 		  <Container>
+		  	<Menu categories={categories}/>
 		  	<SemiContainer>
 			   <ImagedContainer className="arrow" position="left"/>
 			  <div className="arrow">
@@ -93,20 +97,10 @@ class IndexPage extends React.Component {
 			  </div>
 			   {catList}
 			</SemiContainer>
-
-
 			<RightContainer style={this.state.css}>
 			   {postsList}
 			   <div className="arrow">
 			   		<ul className="itemList">
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
 			   			<li>Ceci est un post avec un long titre</li>
 			   			<li> Article 2</li>
 			   			<li> Article 1</li>
@@ -115,22 +109,6 @@ class IndexPage extends React.Component {
 			   			<li> Une fois oui</li>
 			   			<li> Article 1</li>
 			   			<li> Comment j'ai créé l'agilité 2.0</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
-			   			<li> Article 1</li>
-			   			<li> Article 2</li>
 			   		</ul>
 			   </div>
 			   <ImagedContainer className="arrow" position="right"/>
@@ -142,7 +120,7 @@ class IndexPage extends React.Component {
 
 // eslint-disable-next-line no-undef
 export const categoryQuery = graphql`
-  query PostsByCategory {
+  query PostsByCategories {
     allMarkdownRemark(
         sort: { order: DESC, fields: [frontmatter___date] }
         limit: 1000

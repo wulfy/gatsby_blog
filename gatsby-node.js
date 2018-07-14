@@ -3,10 +3,12 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
+const _ = require("lodash");
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
 const path = require('path')
 const fs = require('fs')
+const categoryTemplate = path.resolve(`src/pages/category.js`);
 
 const getComponent = type =>
   fs.existsSync(path.resolve(`src/templates/${type}.js`))
@@ -85,12 +87,20 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     }
 
     result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      console.log(node)
+      console.log(node);
+      const category = node.frontmatter.category;
+      category ? createPage({
+        path: `/category/${_.kebabCase(category)}/`,
+        component: categoryTemplate,
+        context: {
+          category
+        }, // additional data can be passed via context
+      }) : null;
       createPage({
         path: node.frontmatter.path,
         component: getComponent(node.fields.type),
         context: {}, // additional data can be passed via context
-      })
+      });
     })
   })
 }

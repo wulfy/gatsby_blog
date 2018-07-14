@@ -207,17 +207,7 @@ body {
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
-img {
-  max-width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  margin-bottom: 1.45rem;
-}
+
 h1 {
   margin-left: 0;
   margin-right: 0;
@@ -510,9 +500,7 @@ dt {
 th {
   font-weight: bold;
 }
-li {
-  margin-bottom: calc(1.45rem / 2);
-}
+
 ol li {
   padding-left: 0;
 }
@@ -639,8 +627,73 @@ pre tt:after {
   display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    overflow: hidden;
+    justify-content: center;
+    max-height: 80%;
+    width: 90%;
 }
 .itemList li {
-  padding-right: 30px;
+      flex-basis: 46%;
+      margin-left: 25px;
 }
 
+.menu{
+  position: fixed;
+  right: 2%;
+  top:50%;
+  z-index:999;
+}
+
+.menu li{
+  list-style-type: none; 
+  
+}
+
+.menu li:hover .pastille{
+  transform: scale(2, 2);
+  background-color:white;
+   z-index: 10;
+}
+
+.menu li:hover span{
+  transform: translateX(-8em) scale(1.5, 1.5);
+}
+
+.menu img{
+  border-radius: 50%;
+  width: 80%;
+  height:80%;
+}
+
+.menu li {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.menu li span{
+  position: absolute;
+  z-index:-1;
+  transform: translateX(0em) scale(0, 0);
+  transition: transform 0.2s ease-in-out;
+  text-align: right;
+  width: 80px;
+}
+
+.pastille {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transition: transform .2s ease-in-out;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.menu a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
