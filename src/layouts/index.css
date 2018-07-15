@@ -697,3 +697,61 @@ pre tt:after {
   justify-content: center;
   align-items: center;
 }
+
+.animatedSvgContainer {
+  position:absolute;
+  top: 30%;
+  left: 30%;
+  width: 100%;
+  z-index: 999;
+}
+.animatedSvgText {
+  stroke-dasharray: 600;
+  stroke-dashoffset: -600;
+  stroke-width: 1.2px;
+  stroke: #FFF;
+  fill: none;
+  animation: countdown 10s forwards;
+  animation-delay: 5s;
+  font-size: 5em;
+}
+
+.animatedSvgTextBorder{
+    stroke-dasharray: 700;
+  stroke-dashoffset: -600;
+  stroke-width: 0.5px;
+  stroke: yellow;
+  fill: none;
+  animation: countdownBorder 10s infinite forwards;
+  animation-delay: 15s;
+  font-size: 5em;
+}
+@keyframes countdownBorder {
+        0% {
+            stroke-dashoffset: -600;
+        }
+        10% {
+            stroke-dashoffset:  0;
+        }
+        20% {
+            stroke-dashoffset: 600;
+        }
+        30%{
+            stroke-dashoffset: 0;
+        }
+        40%{
+            stroke-dashoffset: -600;
+        }
+        100%{
+            stroke-dashoffset: -600;
+        }
+    }
+
+@keyframes countdown {
+        from {
+            stroke-dashoffset: -600;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }

@@ -3,6 +3,7 @@ import Link from 'gatsby-link'
 import {CAT_IMG, DEFAULT_IMG, HOME_IMG} from '../common/constant'
 import _ from 'lodash'
 import Menu from '../components/menu'
+import BlogTitle from '../components/blogTitle'
 
 function* entries(obj) {
    for (let key of Object.keys(obj)) {
@@ -90,6 +91,7 @@ class IndexPage extends React.Component {
   	  	return (
 		  <Container>
 		  	<Menu categories={categories}/>
+		  	<BlogTitle/>
 		  	<SemiContainer>
 			   <ImagedContainer className="arrow" position="left"/>
 			  <div className="arrow">

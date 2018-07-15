@@ -10,4 +10,4 @@ export const CAT_ICON = {
 
 export const DEFAULT_IMG = 'https://art.ngfiles.com/images/131000/131213_gamenovice19_homer-thinking.png?f1284676003';
 export const DEFAULT_ICON = 'https://image.flaticon.com/icons/png/128/512/512566.png';
-export const HOME_IMG = 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg';
+export const HOME_IMG = 'https://opengameart.org/sites/default/files/SpaceBackground1.png';
