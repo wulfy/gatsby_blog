@@ -4,6 +4,7 @@ import {CAT_IMG, DEFAULT_IMG, HOME_IMG} from '../common/constant'
 import _ from 'lodash'
 import Menu from '../components/menu'
 import BlogTitle from '../components/blogTitle'
+import Me from '../components/me'
 
 function* entries(obj) {
    for (let key of Object.keys(obj)) {
@@ -28,6 +29,7 @@ class IndexPage extends React.Component {
     super(props);
     this.state = {css: {}, screen: { width: window.innerWidth, height: window.innerHeight }};
     this.initialScrollHeight = 0;
+    this.titleAnimationEnabled = true;
   }
 
   componentDidMount() {
@@ -44,9 +46,10 @@ class IndexPage extends React.Component {
     const isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat');
     const scrollValue = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop;
   	const newCss = {css: {transform: `translate(0px, ${scrollValue*2}px)`}};
-
+  	
   	if(scrollValue <= this.initialScrollHeight)
   	{
+  		this.titleAnimationEnabled = false;
   		this.setState(newCss);
   	}else 
   	{
@@ -91,7 +94,8 @@ class IndexPage extends React.Component {
   	  	return (
 		  <Container>
 		  	<Menu categories={categories}/>
-		  	<BlogTitle/>
+		  	<Me/>
+		  	<BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
 		  	<SemiContainer>
 			   <ImagedContainer className="arrow" position="left"/>
 			  <div className="arrow">
