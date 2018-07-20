@@ -7,7 +7,7 @@ const Menu = (props) => {
 	const categories = props.categories ? props.categories : [];
 	const categoriesItem = categories.map((category)=> {
 		const icon = CAT_ICON[category] ? CAT_ICON[category] : DEFAULT_ICON;
-		return <li><div className="pastille"><Link to={`/category/${category}`}><img src={icon}/></Link></div><span>{category}</span></li>
+		return <li key={`menu-${category}`}><div className="pastille"><a href="#" onClick={props.goto}><img data-section={category} src={icon}/></a></div><span>{category}</span></li>
 	});
 	return(
 		<ul className="menu">

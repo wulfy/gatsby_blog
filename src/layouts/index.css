@@ -5,7 +5,15 @@ html {
 }
 body {
   margin: 0;
+  font-size: 2.5vw;
 }
+
+@media all and (min-width: 950px) {
+body{
+    font-size: 22px;
+  }
+}
+
 article,
 aside,
 details,
@@ -630,11 +638,15 @@ pre tt:after {
     overflow: hidden;
     justify-content: center;
     max-height: 80%;
-    width: 90%;
 }
 .itemList li {
-      flex-basis: 46%;
-      margin-left: 25px;
+    flex-basis: 58%;
+    margin-left: 25px;
+}
+
+.itemList {
+    margin-left:-3em;
+    margin-right: 0.5em;
 }
 
 .menu{
@@ -656,7 +668,7 @@ pre tt:after {
 }
 
 .menu li:hover span{
-  transform: translateX(-8em) scale(1.5, 1.5);
+  transform: translateX(-170%) scale(1.5, 1.5);
 }
 
 .menu img{
@@ -677,7 +689,8 @@ pre tt:after {
   transform: translateX(0em) scale(0, 0);
   transition: transform 0.2s ease-in-out;
   text-align: right;
-  width: 80px;
+  width: 5em;
+  font-size: 1em;
  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 
@@ -699,6 +712,10 @@ pre tt:after {
   align-items: center;
 }
 
+.rightContainer {
+  padding-left: -3em;
+}
+
 .animatedSvgContainer {
   position:absolute;
   width: 100%;
@@ -710,14 +727,14 @@ pre tt:after {
   align-items: center;
 }
 .animatedSvgText {
-  stroke-dasharray: 600;
-  stroke-dashoffset: -600;
+  stroke-dasharray: 12em;
+  stroke-dashoffset: -12em;
   stroke-width: 1.2px;
   stroke: #FFF;
   fill: none;
-  animation: countdown 10s forwards;
-  animation-delay: 5s;
-  font-size: 5em;
+  animation: countdown 15s forwards;
+  animation-delay: 2s;
+  font-size: 3em;
   alignment-baseline: middle;
   text-anchor: middle;
 }
@@ -743,22 +760,13 @@ pre tt:after {
   top:70%;
   color: white;
   z-index: 999;
+    align-items: center;
 }
 
 .me img{
   width: 40px;
   height: 50px;
-}
-
-.me ul{
-    margin: 0;
-  padding: 0;
-}
-
-.me ul li{
-  list-style-type: none; 
-  text-align: flex;
-  height: 50%;
+  animation: image-over-video-anim 4.2s ease-in-out infinite;
 }
 
 .me .mini{
@@ -767,19 +775,21 @@ pre tt:after {
   margin-right: 5px;
 }
 
-.me .githubImg:hover, .githubText{
-  display: block;
-}
-
-.me .twitterImg:hover, .twitterText{
-  display: block;
-}
-
 @keyframes countdown {
         from {
-            stroke-dashoffset: -600;
+            stroke-dashoffset: 12em;
         }
         to {
-            stroke-dashoffset: 0;
+          stroke-dashoffset: 0em;
         }
+        
     }
+
+@keyframes image-over-video-anim {
+    0%,100%{
+          transform:translate(0,-5px)
+        }
+    50%{
+          transform:translate(0,5px)
+        }
+}
