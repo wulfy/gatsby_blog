@@ -680,7 +680,9 @@ pre tt:after {
 .menu li {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 5vh;
+  min-height: 50px;
+  margin-bottom: 5px;
 }
 
 .menu li span{
@@ -698,12 +700,18 @@ pre tt:after {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   transition: transform .2s ease-in-out;
-  height: 40px;
-  width: 40px;
+  height: 5vh;
+  min-height: 40px;
+  width: 5vh;
+  min-width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 5;
+}
+
+.menu li.isSelected span{
+  transform: translateX(-110%) scale(1, 1);
 }
 
 .menu a{
@@ -766,7 +774,7 @@ pre tt:after {
 .me img{
   width: 40px;
   height: 50px;
-  animation: image-over-video-anim 4.2s ease-in-out infinite;
+  animation: floating 4.2s ease-in-out infinite;
 }
 
 .me .mini{
@@ -785,7 +793,7 @@ pre tt:after {
         
     }
 
-@keyframes image-over-video-anim {
+@keyframes floating {
     0%,100%{
           transform:translate(0,-5px)
         }
