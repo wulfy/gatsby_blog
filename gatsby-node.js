@@ -3,19 +3,19 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-const _ = require("lodash");
+const _ = require('lodash')
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
 const path = require('path')
 const fs = require('fs')
-const categoryTemplate = path.resolve(`src/pages/category.js`);
+const categoryTemplate = path.resolve(`src/pages/category.js`)
 
 const getComponent = type =>
   fs.existsSync(path.resolve(`src/templates/${type}.js`))
     ? path.resolve(`src/templates/${type}.js`)
     : path.resolve(`src/templates/page.js`)
 
-//When you implement a Gatsby API, you're passed a collection of "Bound Action Creators" 
+//When you implement a Gatsby API, you're passed a collection of "Bound Action Creators"
 // (functions which create and dispatch Redux actions when called) which you can use to manipulate state on your site.
 //The object boundActionCreators contains the functions and these can be individually extracted by using ES6 object destructuring.
 //Permet de générer les données "slug" et "type" utilisées dans les autres appels graphql comme create page
@@ -48,12 +48,10 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
 //gère le choix du template selon le répertoire où se trouve le fichier désiré
 //est appelé lors de la phase du build pour créer les slugs
 //We’re using GraphQL to get all Markdown nodes and making them available under the allMarkdownRemark
-//One note here is that the exports.createPages API expects a Promise to be returned, 
+//One note here is that the exports.createPages API expects a Promise to be returned,
 //so it works seamlessly with the graphql function, which returns a Promise
 exports.createPages = ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators
-  console.log('bad resolve:')
-  console.log(path.resolve(`src/templates/ytyty.js`))
 
   return graphql(`
     {
@@ -87,20 +85,21 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     }
 
     result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      console.log(node);
-      const category = node.frontmatter.category;
-      category ? createPage({
-        path: `/category/${_.kebabCase(category)}/`,
-        component: categoryTemplate,
-        context: {
-          category
-        }, // additional data can be passed via context
-      }) : null;
+      const category = node.frontmatter.category
+      category
+        ? createPage({
+            path: `/category/${_.kebabCase(category)}/`,
+            component: categoryTemplate,
+            context: {
+              category,
+            }, // additional data can be passed via context
+          })
+        : null
       createPage({
         path: node.frontmatter.path,
         component: getComponent(node.fields.type),
         context: {}, // additional data can be passed via context
-      });
+      })
     })
   })
 }

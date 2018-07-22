@@ -680,7 +680,9 @@ pre tt:after {
 .menu li {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 5vh;
+  min-height: 50px;
+  margin-bottom: 5px;
 }
 
 .menu li span{
@@ -698,12 +700,18 @@ pre tt:after {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   transition: transform .2s ease-in-out;
-  height: 40px;
-  width: 40px;
+  height: 5vh;
+  min-height: 40px;
+  width: 5vh;
+  min-width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 5;
+}
+
+.menu li.isSelected span{
+  transform: translateX(-110%) scale(1, 1);
 }
 
 .menu a{
@@ -763,10 +771,63 @@ pre tt:after {
     align-items: center;
 }
 
+.header_menu{
+  display: flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size: 14px;
+  background-color: rgba(102, 204, 255,.9);
+}
+
+.header_menu a{
+  text-decoration: none;
+  color: inherit;
+  }
+
+.pageContainer {
+  padding-top : 90px;
+}
+
+.header_items{
+  margin-right: 5%;
+}
+
+.header_items span{
+  margin-right: 15px;
+}
+
+.header_items span:hover i{
+  transform: rotateX(180deg) rotateZ(180deg);
+}
+
+.header_items span:hover {
+  color: white;
+}
+
+.header_items i{
+  transition: transform .2s ease-in-out;
+  padding-right: 5px;
+}
+
+.header_me{
+  height: 50px;
+  display: flex;
+  align-items:center;
+  margin-left: 10px;
+}
+
+.header_me span{
+  display: none;
+}
+
+.header_me img{
+  height: 80%;
+}
+
 .me img{
   width: 40px;
   height: 50px;
-  animation: image-over-video-anim 4.2s ease-in-out infinite;
+  animation: floating 4.2s ease-in-out infinite;
 }
 
 .me .mini{
@@ -785,7 +846,7 @@ pre tt:after {
         
     }
 
-@keyframes image-over-video-anim {
+@keyframes floating {
     0%,100%{
           transform:translate(0,-5px)
         }
