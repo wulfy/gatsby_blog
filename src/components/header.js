@@ -21,7 +21,7 @@ const Header = ({ siteTitle, path, hide, scrollingDown, title}) => {
       style={headerStyle}
     >
       <div className="header_menu">
-        <Me className="header_me" />
+        <Link to="/"><Me className="header_me" /></Link>
         <div className="header_items">
           <span> <Link to="/category/"><i className="fas fa-tags"></i> Categories </Link></span>
           <span> <Link to="/search/"><i className="fas fa-search"></i> Search </Link></span>

@@ -38,7 +38,7 @@ class Layout extends React.Component {
 
   render() {
     const { children, data, location } = this.props;
-    const classStyle = location.path === '/' ? "" : "pageContainer";
+    const classStyle = location.pathname === '/' ? "" : "pageContainer";
     return <div>
       <Helmet
         title={data.site.siteMetadata.title}

@@ -784,8 +784,24 @@ pre tt:after {
   color: inherit;
   }
 
+.post_metas{
+  width: 100%;
+  position: absolute;
+  top:25vw;
+  text-align: center;
+  justify-content:center;
+  flex-direction:column;
+  display: flex;
+  color: white;
+  text-shadow: 1px 1px #000000;
+}
+
 .pageContainer {
-  padding-top : 90px;
+  padding-top :0;
+}
+
+.pageContainer img {
+  width:100%;
 }
 
 .header_items{
@@ -828,6 +844,36 @@ pre tt:after {
   width: 40px;
   height: 50px;
   animation: floating 4.2s ease-in-out infinite;
+}
+
+.post_title{
+  font-size: 2.5em;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.post_title::after{
+      content: " ";
+    display: block;
+    margin: 0 auto;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+    background-color: #fff;
+    height: 2px;
+    width: 10vw;
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    animation: floating 4.2s ease-in-out infinite;
+}
+
+.post_date {
+  font-size: 1em;
+}
+.post_date i {
+    
+}
+
+.blog-post-content{
+  padding: 10vw 10%;
 }
 
 .me .mini{
