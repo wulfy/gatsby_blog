@@ -188,7 +188,7 @@ class IndexPage extends React.Component {
           handleScrollToSection={this.handleScrollToSection}
           selected={selectedCategory}
         />
-        <Me />
+        <Me className="me" />
         <BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
         <SemiContainer>
           <ImagedContainer className="arrow" position="left" />

@@ -18,5 +18,5 @@ export const DEFAULT_ICON =
   'https://image.flaticon.com/icons/png/128/512/512566.png'
 export const HOME_IMG =
   'https://opengameart.org/sites/default/files/SpaceBackground1.png'
-export const ME_ICON = 'mini_little_ninja_blanc.png'
+export const ME_ICON = '/mini_little_ninja_blanc.png'
 export const SCROLL_SECTION_DELAY = 1500
