@@ -7,24 +7,40 @@ const Category = props => {
   const {
     pathContext: { category },
   } = props
-  const currentCat = category ? category : 'All cats'
-  console.log(posts)
-  const postsList = category
-    ? _.filter(posts, post => post.node.frontmatter.category === category)
-    : posts
-  const postsListItems = postsList.map((post, index) => (
-    <li key={index}>
-      <Link to={post.node.frontmatter.path}>
-        {' '}
-        {post.node.frontmatter.category} - {post.node.frontmatter.title}
-      </Link>
-    </li>
-  ))
+  const currentCat = category ? category : 'All cats';
+
+  let catList = []
+    let postsList = []
+    const postByCats = _.groupBy(posts, 'node.frontmatter.category');
+    const categories = []
+    _.forEach(postByCats, (posts, currentCategory) => {
+      if(category && category != currentCategory)
+      {
+        return;
+      }
+      const postsListItems = posts.reduce((acc, { node: { frontmatter } }) => {
+        acc.push(
+          <li key={frontmatter.title}>
+            <Link to={frontmatter.path}>{frontmatter.title}</Link>
+          </li>
+        )
+        return acc
+      }, [])
+      postsList.push(
+        <div key={`${currentCategory}-items`} className="categoryItems">
+          <figure>
+            <figcaption><i className="fas fa-tags"/> {currentCategory} </figcaption>
+              <ul className="itemList">
+                {postsListItems}
+              </ul>
+          </figure>
+        </div>
+      )
+    })
+
   return (
-    <div>
-      <h1>{currentCat}</h1>
-      <p>Posts:</p>
-      <ul>{postsListItems}</ul>
+    <div className="categoryList blog-post-container">
+        {postsList}
     </div>
   )
 }

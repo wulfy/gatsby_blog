@@ -626,15 +626,50 @@ pre tt:after {
   justify-content: center;
 }
 
+.arrow figure, .arrow .itemList {
+  margin-left:-15vw;
+  margin-right: 0.5em;
+}
+
+.categoryList {
+  margin: 0px auto;
+  padding-top: 120px;
+  max-width: 40vw;
+}
+
+.categoryItems{
+  margin-bottom: 50px;
+}
+
+.categoryList figcaption .fa-tags {
+  color:rgba(255, 51, 153);
+}
+
+.categoryList figcaption{
+  padding-bottom: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
 .arrow img {
   max-width: 100%;
   max-height: 70%;
 }
 
+.arrow .itemList li:last-child{
+    list-style: none;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 2em;
+}
+
+.arrow .itemList li:last-child a{
+  margin-top:50px;
+  color: rgba(255, 51, 153);
+}
+
 .itemList {
-  display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     overflow: hidden;
     justify-content: center;
     max-height: 80%;
@@ -642,11 +677,18 @@ pre tt:after {
 .itemList li {
     flex-basis: 58%;
     margin-left: 25px;
+    list-style: circle;
+    color: #53d397;
 }
 
-.itemList {
-    margin-left:-3em;
-    margin-right: 0.5em;
+.itemList li:hover {
+    list-style: disc;
+}
+
+.itemList li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 0.8em;
 }
 
 .menu{
@@ -661,14 +703,14 @@ pre tt:after {
   
 }
 
-.menu li:hover .pastille{
+.menu li:hover .pastille, .menu li.isSelected .pastille{
   transform: scale(2, 2);
   background-color:white;
    z-index: 10;
 }
 
 .menu li:hover span{
-  transform: translateX(-170%) scale(1.5, 1.5);
+  transform: translateX(-140%) scale(1, 1);
 }
 
 .menu img{
@@ -710,9 +752,6 @@ pre tt:after {
   z-index: 5;
 }
 
-.menu li.isSelected span{
-  transform: translateX(-110%) scale(1, 1);
-}
 
 .menu a{
   display: flex;
@@ -776,7 +815,15 @@ pre tt:after {
   align-items:center;
   justify-content:space-between;
   font-size: 14px;
-  background-color: rgba(102, 204, 255,.9);
+  background-color: rgba(255, 51, 153,.8);
+  padding-left: 20px;
+    color: white;
+}
+
+.header_menu_start{
+  background-color: transparent;
+  padding-top:27px;
+  
 }
 
 .header_menu a{

@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import Me from '../components/me'
 
-const Header = ({ siteTitle, path, hide, scrollingDown, title}) => {
+const Header = ({ siteTitle, path, hide, scrollingDown, scrollValue, title}) => {
   const headerStyle = {
       marginBottom: '0',
       transition: 'transform 0.2s ease-in-out',
@@ -16,11 +16,12 @@ const Header = ({ siteTitle, path, hide, scrollingDown, title}) => {
   const textStyle = {
        margin: '0',
   };
+  const headerOverrideClass = scrollValue < 100 && !path.includes("category") ? "header_menu_start" : "";
   return (
     <div
       style={headerStyle}
     >
-      <div className="header_menu">
+      <div className={`header_menu ${headerOverrideClass}`}>
         <Link to="/"><Me className="header_me" /></Link>
         <div className="header_items">
           <span> <Link to="/category/"><i className="fas fa-tags"></i> Categories </Link></span>
@@ -35,6 +36,7 @@ const Header = ({ siteTitle, path, hide, scrollingDown, title}) => {
 const mapStateToProps = state => {
   return {
     scrollingDown: state.globalReducer.scrollingDown,
+    scrollValue:state.globalReducer.scrollValue,
   };
 }
 

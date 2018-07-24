@@ -86,7 +86,10 @@ class IndexPage extends React.Component {
       )
       postsList.push(
         <div key={`${category}-items`} className="arrow">
-          <ul className="itemList">{postsListItems}</ul>
+            <ul className="itemList">
+              {postsListItems}
+              <li><Link to={`/category/${category}`}><i className="fas fa-ellipsis-h"></i></Link></li>
+            </ul>
         </div>
       )
     })
@@ -173,7 +176,7 @@ class IndexPage extends React.Component {
     );
     let newCss = {}
     let selectedCategory = "";
-    if (scrollValue <= this.initialScrollHeight) {
+    if (scrollValue < this.initialScrollHeight) {
       this.previousScrollValue = scrollValue;
       this.titleAnimationEnabled = false
       newCss = {
