@@ -3,9 +3,6 @@ import Link from 'gatsby-link'
 import { connect } from "react-redux"
 
 import {
-  CAT_IMG,
-  CAT_ICON,
-  DEFAULT_IMG,
   HOME_IMG,
   SCROLL_SECTION_DELAY,
 } from '../common/constant'
@@ -13,7 +10,7 @@ import _ from 'lodash'
 import Menu from '../components/menu'
 import BlogTitle from '../components/blogTitle'
 import Me from '../components/me'
-import { scrollIt } from '../common/utils'
+import { scrollIt, getCatImage } from '../common/utils'
 
 function* entries(obj) {
   for (let key of Object.keys(obj)) {
@@ -30,8 +27,6 @@ const IndexPage2 = () => (
   </div>
 )
 
-const getCatImage = category =>
-  CAT_IMG[category] ? CAT_IMG[category] : DEFAULT_IMG
 const Container = props => <div {...props} style={{ overflow: 'hidden' }} />
 const SemiContainer = props => (
   <div
@@ -71,10 +66,10 @@ class IndexPage extends React.Component {
     _.forEach(postByCats, (posts, category) => {
       categories.push(category)
       const categoryImage = getCatImage(category)
-      const postsListItems = posts.reduce((acc, { node: { frontmatter } }) => {
+      const postsListItems = posts.reduce((acc, { node: { frontmatter, fields } }) => {
         acc.push(
           <li key={frontmatter.title}>
-            <Link to={frontmatter.path}>{frontmatter.title}</Link>
+            <Link to={`${fields.slug}`}>{frontmatter.title}</Link>
           </li>
         )
         return acc
@@ -86,10 +81,13 @@ class IndexPage extends React.Component {
       )
       postsList.push(
         <div key={`${category}-items`} className="arrow">
-            <ul className="itemList">
-              {postsListItems}
-              <li><Link to={`/category/${category}`}><i className="fas fa-ellipsis-h"></i></Link></li>
-            </ul>
+         <figure>
+            <figcaption></figcaption>
+              <ul className="itemList">
+                {postsListItems}
+                <li><Link to={`/category/${category}`}>Voir tout <i className="fas fa-ellipsis-h"></i></Link></li>
+              </ul>
+         </figure>
         </div>
       )
     })

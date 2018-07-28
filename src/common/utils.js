@@ -1,3 +1,12 @@
+import {
+  CAT_IMG,
+  CAT_ICON,
+  DEFAULT_IMG,
+  HOME_IMG,
+  SCROLL_SECTION_DELAY,
+} from './constant'
+
+
 export const scrollIt = (
   destination,
   duration = 200,
@@ -99,3 +108,6 @@ export const scrollIt = (
 
   scroll()
 }
+
+export const getCatImage = category =>
+  CAT_IMG[category] ? CAT_IMG[category] : DEFAULT_IMG

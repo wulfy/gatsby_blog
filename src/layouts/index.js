@@ -15,6 +15,7 @@ class Layout extends React.Component {
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
     this.initialScrollHeight = document.documentElement.scrollHeight
+    hljs.initHighlightingOnLoad();
     console.log('did mount root')
   }
 
@@ -37,8 +38,10 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { children, data, location } = this.props;
+    const { children, data, location, pathContext } = this.props;
+    console.log(location);
     const classStyle = location.pathname === '/' ? "" : "pageContainer";
+    console.log("reder layout");
     return <div>
       <Helmet
         title={data.site.siteMetadata.title}

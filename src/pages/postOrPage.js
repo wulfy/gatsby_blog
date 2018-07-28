@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import { getCatImage } from '../common/utils'
 
-const Category = props => {
+const PostOrPage = props => {
   const { edges: posts } = props.data.allMarkdownRemark
   const {
     pathContext: { category },
@@ -13,10 +13,8 @@ const Category = props => {
 
   let catList = []
     let postsList = []
+    console.log(posts);
     const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
-    let final = [];
-    _.forEach(postByCats,(catObj,category)=>final[category] = _.groupBy(catObj, ({node}) => node.fields.type ));
-    console.log(final);
     const categories = []
     _.forEach(postByCats, (posts, currentCategory) => {
       if(category && category != currentCategory)
@@ -53,9 +51,10 @@ const Category = props => {
 }
 
 // eslint-disable-next-line no-undef
-export const categoryQuery = graphql`
-  query postsByCategory {
+export const postOrPageQuery = graphql`
+  query postOrPageByCategory ($type : String!) {
     allMarkdownRemark(
+      filter: { fields : {type: { eq: $type }}}
       sort: { order: DESC, fields: [frontmatter___date] }
       limit: 1000
     ) {
@@ -82,4 +81,4 @@ export const categoryQuery = graphql`
   }
 `
 
-export default Category
+export default PostOrPage

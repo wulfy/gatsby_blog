@@ -8,15 +8,18 @@ const Header = ({ siteTitle, path, hide, scrollingDown, scrollValue, title}) => 
   const headerStyle = {
       marginBottom: '0',
       transition: 'transform 0.2s ease-in-out',
-      transform: scrollingDown ? 'translate(0, -100px)' : 'translate(0, 0)', 
+      transform: scrollingDown &&  scrollValue > 10 ? 'translate(0, -100px)' : 'translate(0, 0)', 
       display: (path === '/' || hide) ? 'none' : 'block',
       position:'fixed',
       width:'100%',
+      zIndex: 999,
     };
   const textStyle = {
        margin: '0',
   };
-  const headerOverrideClass = scrollValue < 100 && !path.includes("category") ? "header_menu_start" : "";
+
+  const headerOverrideClass = scrollValue < 100 && path.indexOf("posts") >= 0 && path.split("/")[2]? "header_menu_start" : "";
+
   return (
     <div
       style={headerStyle}

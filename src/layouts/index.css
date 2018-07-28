@@ -392,23 +392,7 @@ figure {
   padding-top: 0;
   margin-bottom: 1.45rem;
 }
-pre {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  margin-bottom: 1.45rem;
-  font-size: 0.85rem;
-  line-height: 1.42;
-  background: hsla(0, 0%, 0%, 0.04);
-  border-radius: 3px;
-  overflow: auto;
-  word-wrap: normal;
-  padding: 1.45rem;
-}
+
 table {
   margin-left: 0;
   margin-right: 0;
@@ -626,7 +610,7 @@ pre tt:after {
   justify-content: center;
 }
 
-.arrow figure, .arrow .itemList {
+.arrow figure {
   margin-left:-15vw;
   margin-right: 0.5em;
 }
@@ -639,6 +623,11 @@ pre tt:after {
 
 .categoryItems{
   margin-bottom: 50px;
+}
+
+.categoryItems a{
+    text-decoration: none;
+    color: inherit;
 }
 
 .categoryList figcaption .fa-tags {
@@ -659,9 +648,17 @@ pre tt:after {
 
 .arrow .itemList li:last-child{
     list-style: none;
-    text-align: center;
-    margin-top: 5px;
-    font-size: 2em;
+    text-align: right;
+    margin-top: 25px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+
+.arrow .itemList li::first-letter { 
+    font-size: 1.2em;
+    font-weight: bold;
+    color: rgb(255, 51, 153);
 }
 
 .arrow .itemList li:last-child a{
@@ -834,7 +831,7 @@ pre tt:after {
 .post_metas{
   width: 100%;
   position: absolute;
-  top:25vw;
+  top:40vh;
   text-align: center;
   justify-content:center;
   flex-direction:column;
@@ -847,7 +844,7 @@ pre tt:after {
   padding-top :0;
 }
 
-.pageContainer img {
+.blog-post img {
   width:100%;
 }
 
@@ -859,7 +856,7 @@ pre tt:after {
   margin-right: 15px;
 }
 
-.header_items span:hover i{
+.header_items span:hover .fas, .categoryItems a:hover .fas{
   transform: rotateX(180deg) rotateZ(180deg);
 }
 
@@ -867,8 +864,10 @@ pre tt:after {
   color: white;
 }
 
-.header_items i{
+.fas {
   transition: transform .2s ease-in-out;
+}
+.header_items i{
   padding-right: 5px;
 }
 
@@ -891,6 +890,10 @@ pre tt:after {
   width: 40px;
   height: 50px;
   animation: floating 4.2s ease-in-out infinite;
+}
+
+.header_me img:hover{
+  transform: rotateZ(10deg);
 }
 
 .post_title{
@@ -927,6 +930,21 @@ pre tt:after {
   height: 15px;
   width: 15px;
   margin-right: 5px;
+}
+
+.categoryImage {
+  max-height: 50vh;
+  width: auto;
+      max-width: 40vw;
+}
+
+.blog-page-container{
+  padding-top: 80px;
+}
+
+.postImage{
+    width: 100vw;
+    height: 100vh;
 }
 
 @keyframes countdown {

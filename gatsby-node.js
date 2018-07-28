@@ -9,11 +9,12 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 const path = require('path')
 const fs = require('fs')
 const categoryTemplate = path.resolve(`src/pages/category.js`)
+const postOrPageTemplate = path.resolve(`src/pages/postOrPage.js`)
 
 const getComponent = type =>
   fs.existsSync(path.resolve(`src/templates/${type}.js`))
     ? path.resolve(`src/templates/${type}.js`)
-    : path.resolve(`src/templates/page.js`)
+    : path.resolve(`src/templates/pages.js`)
 
 //When you implement a Gatsby API, you're passed a collection of "Bound Action Creators"
 // (functions which create and dispatch Redux actions when called) which you can use to manipulate state on your site.
@@ -24,18 +25,29 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
 
   //on vérifie que l'action est bien de type "mardown"
   if (node.internal.type === `MarkdownRemark`) {
+
     const fileNode = getNode(node.parent)
     //const slug = /pages/.test(fileNode.relativePath) ? createFilePath({ node, getNode, basePath: `pages` }) : createFilePath({ node, getNode, basePath: `posts` })
-    let type = ''
-    const slug = fileNode.relativePath
-    if (fileNode.relativePath.indexOf('/') >= 0) {
-      type = fileNode.relativePath.split('/')[0]
-    }
+    const relativePath = fileNode.relativePath
+    const filePathData = fileNode.relativePath.split('/')
+    const type = filePathData.length >= 1 ? filePathData[0] : '';
+    const defaultCategory = filePathData.length > 2 ? filePathData[1] : '';
+    const slug = `/${type}${node.frontmatter.path}`;
 
     createNodeField({
       node,
+      name: `relativePath`,
+      value: relativePath,
+    })
+    createNodeField({
+      node,
+      name: `defaultCategory`,
+      value: defaultCategory,
+    })
+    createNodeField({
+      node,
       name: `slug`,
-      value: `${slug}`,
+      value: slug,
     })
     createNodeField({
       node,
@@ -68,8 +80,9 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
               value
             }
             fields {
-              slug
+              relativePath
               type
+              slug
             }
             frontmatter {
               path
@@ -86,6 +99,14 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
 
     result.data.allMarkdownRemark.edges.forEach(({ node }) => {
       const category = node.frontmatter.category
+      const type = node.fields.type;
+      createPage({
+            path: `/${type}`,
+            component: postOrPageTemplate,
+            context: {
+              type,
+            }, // additional data can be passed via context
+          })
       category
         ? createPage({
             path: `/category/${_.kebabCase(category)}/`,
@@ -96,9 +117,11 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
           })
         : null
       createPage({
-        path: node.frontmatter.path,
-        component: getComponent(node.fields.type),
-        context: {}, // additional data can be passed via context
+        path: `${node.fields.slug}`,
+        component: getComponent(type),
+        context: {
+          postPath: node.frontmatter.path,
+        }, // additional data can be passed via context
       })
     })
   })
