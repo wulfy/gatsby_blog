@@ -32,6 +32,12 @@ const query = `{
      node {
       objectID: id
       rawMarkdownBody
+      frontmatter {
+            path
+            category
+            title
+          }
+      image: frontmatter { blogImage}
       fields {
         relativePath
         defaultCategory
