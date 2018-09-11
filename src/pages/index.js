@@ -1,6 +1,13 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import { connect } from "react-redux"
+//browser monads s'appuie sur "nothing-type" pour définir window et document quand ces derniers 
+// n existent pas (typiquement côté rendu serveur)
+// ceci afin d'éviter de faire planter la génération côté serveur
+// le module permet de définir pour n'importe quelle propriété appelée par "window" la valeur nothing.
+// ca n'interfèrera pas avec le rendu car il n'y a pas de notion de "window" lors du rendu serveur
+// c'est à l'affichage que le client va se charger de lancer les scripts avec la vrai valeur de window cette fois.
+import { window, document } from 'browser-monads';
 
 import {
   HOME_IMG,
@@ -11,21 +18,6 @@ import Menu from '../components/menu'
 import BlogTitle from '../components/blogTitle'
 import Me from '../components/me'
 import { scrollIt, getCatImage } from '../common/utils'
-
-function* entries(obj) {
-  for (let key of Object.keys(obj)) {
-    yield [key, obj[key]]
-  }
-}
-
-const IndexPage2 = () => (
-  <div>
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <Link to="/page-2/">Go to page 2</Link>
-  </div>
-)
 
 const Container = props => <div {...props} style={{ overflow: 'hidden' }} />
 const SemiContainer = props => (
@@ -61,7 +53,7 @@ class IndexPage extends React.Component {
 
     let catList = []
     let postsList = []
-    const postByCats = _.groupBy(posts, 'node.frontmatter.category')
+    const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);//TODO: regroup this funtion and others bellow to have same code for cat AND index
     const categories = []
     _.forEach(postByCats, (posts, category) => {
       categories.push(category)
@@ -227,6 +219,7 @@ export const categoryQuery = graphql`
           fields {
             slug
             type
+            defaultCategory
           }
           frontmatter {
             path

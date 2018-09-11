@@ -14,9 +14,6 @@ const Category = props => {
   let catList = []
     let postsList = []
     const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
-    let final = [];
-    _.forEach(postByCats,(catObj,category)=>final[category] = _.groupBy(catObj, ({node}) => node.fields.type ));
-    console.log(final);
     const categories = []
     _.forEach(postByCats, (posts, currentCategory) => {
       if(category && category != currentCategory)

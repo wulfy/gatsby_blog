@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { getCatImage } from '../common/utils'
 
 const PostOrPage = props => {
-  const { edges: posts } = props.data.allMarkdownRemark
+  const posts = props.data ? props.data.results.edges : [];
   const {
     pathContext: { category },
   } = props
@@ -53,7 +53,7 @@ const PostOrPage = props => {
 // eslint-disable-next-line no-undef
 export const postOrPageQuery = graphql`
   query postOrPageByCategory ($type : String!) {
-    allMarkdownRemark(
+    results: allMarkdownRemark(
       filter: { fields : {type: { eq: $type }}}
       sort: { order: DESC, fields: [frontmatter___date] }
       limit: 1000

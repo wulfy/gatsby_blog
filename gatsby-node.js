@@ -83,6 +83,7 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
               relativePath
               type
               slug
+              defaultCategory
             }
             frontmatter {
               path
@@ -98,8 +99,9 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     }
 
     result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      const category = node.frontmatter.category
+      const category = node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category;
       const type = node.fields.type;
+     console.log(category)
       createPage({
             path: `/${type}`,
             component: postOrPageTemplate,

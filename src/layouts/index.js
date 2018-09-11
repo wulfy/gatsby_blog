@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { connect } from "react-redux"
 
-import './index.css'
 import Header from '../components/header'
 
 const mapDispatchToProps = dispatch => {
@@ -15,8 +14,19 @@ class Layout extends React.Component {
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
     this.initialScrollHeight = document.documentElement.scrollHeight
-    hljs.initHighlightingOnLoad();
+    hljs.initHighlightingOnLoad();//render code hightlight on page direct access
     console.log('did mount root')
+    console.log(hljs)
+  }
+
+  componentDidUpdate() {
+    //render code hightlight if page is displayed during routing (component already created)
+    const codeBlocks = document.getElementsByTagName("CODE");
+    if(codeBlocks.length <= 0) return;
+
+     for (let htmlBlock of codeBlocks){
+      hljs.highlightBlock(htmlBlock);
+    };
   }
 
   componentWillUnmount() {
@@ -32,7 +42,7 @@ class Layout extends React.Component {
       : isCSS1Compat
         ? document.documentElement.scrollTop
         : document.body.scrollTop
-    console.log("scrolling");
+    //console.log("scrolling");
     e.preventDefault();
     scroll(scrollValue);
   }
