@@ -31,7 +31,7 @@ const query = `{
    edges {
      node {
       objectID: id
-      rawMarkdownBody
+      html
       frontmatter {
             path
             category

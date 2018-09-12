@@ -953,6 +953,18 @@ background-color:rgba(200, 200, 200, 0.3);
     height: 100vh;
 }
 
+.hit img{
+  width: 80%;
+}
+
+.ais-Hits-list {
+  list-style-type: none;
+}
+
+.ais-Hits-item{
+  margin-bottom: 100px;
+}
+
 @keyframes countdown {
         from {
             stroke-dashoffset: 12em;
