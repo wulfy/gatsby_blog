@@ -2,7 +2,7 @@
 path: "/Alexa-homekit-skill"
 date: "2017-07-12T17:12:33.962Z"
 title: "My first Alexa homekit skill"
-blogImage: "https://gatsby-starter-hero-blog.greglobinski.com/static/photo-1507915600431-5292809c5ab7-40d4f4de1973c24726e4ef65ef5fd03e-f16ff.jpg"
+blogImage: "/amazon_alexa.jpeg"
 ---
 
 # Alexa homekit

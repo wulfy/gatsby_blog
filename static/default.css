@@ -843,6 +843,31 @@ background-color:rgba(200, 200, 200, 0.3);
   text-shadow: 1px 1px #000000;
 }
 
+.noAbsolute {
+  position: relative !important;
+}
+
+.ais-SearchBox-form button {
+  position: absolute;
+}
+
+.bottom_read {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.card_metas{
+  width: 100%;
+  position: absolute;
+  top:20%;
+  text-align: center;
+  justify-content:center;
+  flex-direction:column;
+  display: flex;
+  color: white;
+  text-shadow: 1px 1px #000000;
+}
+
 .pageContainer {
   padding-top :0;
 }
@@ -916,6 +941,13 @@ background-color:rgba(200, 200, 200, 0.3);
     width: 10vw;
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
     animation: floating 4.2s ease-in-out infinite;
+}
+
+.page_title {
+  font-size: 2.5em;
+  text-align:center;
+  margin-bottom: 100px;
+  width: 100%;
 }
 
 .post_date {

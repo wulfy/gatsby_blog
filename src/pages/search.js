@@ -16,6 +16,7 @@ const SecondPage = () => (
     searchClient={searchClient}
   >
    <div className="categoryList blog-post-container">
+   <div className="page_title"> SEARCH </div>
     <SearchBox />
     <Hits hitComponent={searchHits} />
    </div> 

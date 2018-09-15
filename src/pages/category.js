@@ -40,9 +40,10 @@ const Category = props => {
       )
     })
     const CategoryImage = props => category ? <img {...props} src={getCatImage(category)} /> : null ;
-
+    const title = category ? null : <div className="page_title"> CATEGORIES </div>;
   return (
     <div className="categoryList blog-post-container">
+        {title}
         <CategoryImage className="categoryImage"/>
         {postsList}
     </div>
