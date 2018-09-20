@@ -61,7 +61,7 @@ const queries = [
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Default Starter',
+    title: "Wulfy's blog",
   },
   plugins: [
     'gatsby-plugin-react-helmet',

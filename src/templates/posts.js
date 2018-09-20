@@ -17,7 +17,7 @@ export default function Template({ data,pathContext }) {
   }
   return (
     <div className="blog-post-container">
-      <Helmet title={`Your Blog Name - ${post.frontmatter.title}`} />
+      <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
       <div className="blog-post">
         <div className="postImage" style={style} />
         <div className="post_metas">
@@ -39,6 +39,11 @@ export default function Template({ data,pathContext }) {
 // postPath est un paramètre fourni par le context de createpage dans gatsby-node
 export const pageQuery = graphql`
   query postByPath($postPath: String!) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     markdownRemark(frontmatter: { path: { eq: $postPath } }) {
       html
       frontmatter {

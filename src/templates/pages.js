@@ -7,7 +7,7 @@ export default function Template({ data }) {
   const { markdownRemark: post } = data
   return (
     <div className="blog-page-container">
-      <Helmet title={`Your Blog Name - ${post.frontmatter.title}`} />
+      <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>
         <div
@@ -21,6 +21,11 @@ export default function Template({ data }) {
 
 export const pageQuery = graphql`
   query PageByPath($postPath: String!) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     markdownRemark(frontmatter: { path: { eq: $postPath } }) {
       html
       frontmatter {
