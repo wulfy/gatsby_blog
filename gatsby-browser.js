@@ -4,20 +4,19 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 import React from 'react'
-import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import createStore from './src/store/createStore'
 
 const store = createStore()
 
-export const replaceRouterComponent = ({ history }) => {
+export const wrapRootElement = ({ element }) => {
 
-    const ConnectedRouterWrapper = ({ children }) => (
+    const ConnectedRootElement = (
         <Provider store={store}>
-            <Router history={history}>{children}</Router>
+            {element}
         </Provider>
     )
 
-    return ConnectedRouterWrapper
+    return ConnectedRootElement
 }

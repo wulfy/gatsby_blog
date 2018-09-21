@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link, graphql } from 'gatsby'
 import _ from 'lodash'
 
 import { getCatImage } from '../common/utils'
@@ -52,7 +52,7 @@ const PostOrPage = props => {
 
 // eslint-disable-next-line no-undef
 export const postOrPageQuery = graphql`
-  query postOrPageByCategory ($type : String!) {
+  query ($type : String!) {
     results: allMarkdownRemark(
       filter: { fields : {type: { eq: $type }}}
       sort: { order: DESC, fields: [frontmatter___date] }

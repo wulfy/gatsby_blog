@@ -1,7 +1,4 @@
 import React from 'react'
-import Link from 'gatsby-link'
-
-import { CAT_ICON, DEFAULT_ICON } from '../common/constant'
 
 const BlogTitle = props => {
   const style =

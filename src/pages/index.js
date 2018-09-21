@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link, graphql } from 'gatsby'
 import { connect } from "react-redux"
 //browser monads s'appuie sur "nothing-type" pour définir window et document quand ces derniers 
 // n existent pas (typiquement côté rendu serveur)
@@ -18,6 +18,7 @@ import Menu from '../components/menu'
 import BlogTitle from '../components/blogTitle'
 import Me from '../components/me'
 import { scrollIt, getCatImage } from '../common/utils'
+import Layout from '../components/layout'
 
 const Container = props => <div {...props} style={{ overflow: 'hidden' }} />
 const SemiContainer = props => (
@@ -113,7 +114,8 @@ class IndexPage extends React.Component {
     const targetSection = e.target.dataset.section
     const element = document.querySelector(`#${targetSection}`)
     e.preventDefault()
-    element ? scrollIt(element, SCROLL_SECTION_DELAY, 'easeInOutQuint') : null
+    if(element)
+      scrollIt(element, SCROLL_SECTION_DELAY, 'easeInOutQuint')
   }
 
   handleReverseScroll = e => {
@@ -175,23 +177,25 @@ class IndexPage extends React.Component {
     }
     selectedCategory = categories[currentPosition];
     return (
-      <Container id="home">
-        <Menu
-          categories={categories}
-          handleScrollToSection={this.handleScrollToSection}
-          selected={selectedCategory}
-        />
-        <Me className="me" />
-        <BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
-        <SemiContainer>
-          <ImagedContainer className="arrow" position="left" />
-          {catList}
-        </SemiContainer>
-        <RightContainer style={newCss.css}>
-          {postsList}
-          <ImagedContainer className="arrow" position="right" />
-        </RightContainer>
-      </Container>
+      <Layout location={this.props.location}>
+        <Container id="home">
+          <Menu
+            categories={categories}
+            handleScrollToSection={this.handleScrollToSection}
+            selected={selectedCategory}
+          />
+          <Me className="me" />
+          <BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
+          <SemiContainer>
+            <ImagedContainer className="arrow" position="left" />
+            {catList}
+          </SemiContainer>
+          <RightContainer style={newCss.css}>
+            {postsList}
+            <ImagedContainer className="arrow" position="right" />
+          </RightContainer>
+        </Container>
+      </Layout>
     )
   }
 }

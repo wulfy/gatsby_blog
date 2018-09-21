@@ -1,9 +1,6 @@
 import {
   CAT_IMG,
-  CAT_ICON,
   DEFAULT_IMG,
-  HOME_IMG,
-  SCROLL_SECTION_DELAY,
 } from './constant'
 
 

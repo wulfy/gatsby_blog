@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import {Link} from 'gatsby'
 
 import { DEFAULT_POST_IMG } from '../common/constant';
 
