@@ -19,6 +19,10 @@ const HTML = props => {
               <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossOrigin="anonymous"/>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"/>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/>
+              <link rel="stylesheet" href="/default.css"/>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+              <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
               {css}
             </head> 
             <body>
@@ -27,6 +31,7 @@ const HTML = props => {
                 dangerouslySetInnerHTML={{ __html: props.body }}
               />
               {props.postBodyComponents}
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"/>
             </body>
           </html>
       );

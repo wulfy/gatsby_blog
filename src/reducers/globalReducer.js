@@ -5,7 +5,7 @@ export default function scrollReducer(state = defaultState, action) {
 	{
 		case `SCROLL`:
 			const scrollingDown = state.scrollValue < action.value;
-			console.log("SCROLL!!!")
+			//console.log("SCROLL!!!")
 			return {...state, scrollValue:action.value, scrollingDown};
 			break;
 		default :

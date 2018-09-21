@@ -700,9 +700,12 @@ pre tt:after {
   
 }
 
-.menu li:hover .pastille, .menu li.isSelected .pastille{
-  transform: scale(2, 2);
-  background-color:white;
+.menu li.isSelected .pastille {
+background-color:rgba(200, 200, 200, 0.3);
+}
+
+.menu li:hover .pastille, .menu li.isSelected .pastille {
+  transform: translateX(-20%) scale(1, 1);
    z-index: 10;
 }
 
@@ -936,6 +939,9 @@ pre tt:after {
   max-height: 50vh;
   width: auto;
       max-width: 40vw;
+      margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .blog-page-container{
