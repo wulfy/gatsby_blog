@@ -52,7 +52,7 @@ const PostOrPage = props => {
 
 // eslint-disable-next-line no-undef
 export const postOrPageQuery = graphql`
-  query ($type : String!) {
+  query ($type : String = "posts") {
     results: allMarkdownRemark(
       filter: { fields : {type: { eq: $type }}}
       sort: { order: DESC, fields: [frontmatter___date] }

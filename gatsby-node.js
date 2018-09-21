@@ -102,7 +102,7 @@ exports.createPages = ({ actions, graphql }) => {
 
         result.data.allMarkdownRemark.edges.forEach(({ node }) => {
           const category = node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category;
-          const type = node.fields.type;
+          const type = node.fields.type ;
           createPage({
                 path: `/${type}`,
                 component: postOrPageTemplate,
