@@ -69,7 +69,7 @@ class IndexPage extends React.Component {
       }, [])
       catList.push(
         <div key={category} id={category} className="arrow">
-          <img src={categoryImage} />
+          <img alt={category} src={categoryImage} />
         </div>
       )
       postsList.push(
@@ -131,7 +131,6 @@ class IndexPage extends React.Component {
       : 0
 
     if (scrollValue <= this.initialScrollHeight) {
-      const hideHeader = scrollValue > this.previousScrollValue;
       this.previousScrollValue = scrollValue;
       this.titleAnimationEnabled = false
       this.setState(newCss)
@@ -141,7 +140,7 @@ class IndexPage extends React.Component {
       return false
     }
 
-    if (this.position != currentPosition) {
+    if (this.position !== currentPosition) {
       const category = categories[currentPosition];
       
       console.log('SELECTED ' + currentPosition + ' ' + category)
@@ -155,7 +154,7 @@ class IndexPage extends React.Component {
   render() {
     console.log('render');
     const {scrollValue} = this.props;
-    const { categories, catList, postsList, selected } = this.state
+    const { categories, catList, postsList } = this.state
     const nbSlide = catList ? catList.length : 0
     const currentPosition = document.documentElement.clientHeight
       ? Math.round(scrollValue / document.documentElement.clientHeight) - 1

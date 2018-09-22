@@ -10,9 +10,6 @@ import Layout from '../components/layout'
 export default function Template({ data,pathContext,location }) {
   const { markdownRemark: post } = data
   const postImg = post.frontmatter.blogImage ? post.frontmatter.blogImage : DEFAULT_POST_IMG;
-  let html = post.html;
-  html = html.replace(/<code>/g, "<code class='hljs actionscript'>");
-  html = html.replace(/<\/code>/g, "<\/code>");
   const style = {
     background:`url("${postImg}")`,
     backgroundPosition: "center",

@@ -1,4 +1,3 @@
-
 const defaultState = {scrollValue:0,scrollingDown:false};
 export default function scrollReducer(state = defaultState, action) {
 	switch(action.type)

@@ -3,16 +3,24 @@ import {Link} from 'gatsby'
 
 import { DEFAULT_POST_IMG } from '../common/constant';
 
-const MAX_WORDS = 20;
+const MAX_CHARS = 500;
 const hits = ({hit}) => {
   console.log(hit.html);
-    const preview = hit.html.match(/<p>((s*))(.*)/)[0];
+    let preview = hit.html.match(/<p>((s*))(.*)/)[0];
+
+    if(preview.length > MAX_CHARS)
+    {
+      preview = preview.substr(0, MAX_CHARS);
+      preview = preview.substr(0, Math.min(preview.length, preview.lastIndexOf(" ")));
+      preview += " ..." ;
+    } 
+
     const hitImg = hit.image.blogImage || DEFAULT_POST_IMG;
     return (
 
       <div className="card hoverable">
         <div className="card-image waves-effect waves-block waves-light">
-          <img className="activator" src={hitImg}/>
+          <img alt={hit.frontmatter.title} className="activator" src={hitImg}/>
           <div className="card_metas activator">
             <span className="card-title post_title meta noAbsolute activator">{hit.frontmatter.title}</span>
             <i className="post_date meta"><i className="fas fa-calendar-alt"></i>July 12, 2017</i>

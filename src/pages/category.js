@@ -10,14 +10,11 @@ const Category = props => {
   const {
     pathContext: { category },
   } = props
-  const currentCat = category ? category : 'All cats';
 
-  let catList = []
     let postsList = []
     const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
-    const categories = []
     _.forEach(postByCats, (posts, currentCategory) => {
-      if(category && category != currentCategory)
+      if(category && category !== currentCategory)
       {
         return;
       }
@@ -40,7 +37,7 @@ const Category = props => {
         </div>
       )
     })
-    const CategoryImage = props => category ? <img {...props} src={getCatImage(category)} /> : null ;
+    const CategoryImage = props => category ? <img {...props} alt={category} src={getCatImage(category)} /> : null ;
     const title = category ? null : <div className="page_title"> CATEGORIES </div>;
   return (
     <Layout location={props.location}>

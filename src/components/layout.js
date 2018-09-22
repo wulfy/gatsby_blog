@@ -55,7 +55,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { children, data, location, pathContext } = this.props;
+    const { children, location } = this.props;
     console.log(location);
     const classStyle = location.pathname === '/' ? "" : "pageContainer";
     console.log("render layout");
