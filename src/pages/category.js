@@ -1,22 +1,20 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link, graphql } from 'gatsby'
 import _ from 'lodash'
 
 import { getCatImage } from '../common/utils'
+import Layout from '../components/layout'
 
 const Category = props => {
   const { edges: posts } = props.data.allMarkdownRemark
   const {
     pathContext: { category },
   } = props
-  const currentCat = category ? category : 'All cats';
 
-  let catList = []
     let postsList = []
     const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
-    const categories = []
     _.forEach(postByCats, (posts, currentCategory) => {
-      if(category && category != currentCategory)
+      if(category && category !== currentCategory)
       {
         return;
       }
@@ -39,14 +37,16 @@ const Category = props => {
         </div>
       )
     })
-    const CategoryImage = props => category ? <img {...props} src={getCatImage(category)} /> : null ;
+    const CategoryImage = props => category ? <img {...props} alt={category} src={getCatImage(category)} /> : null ;
     const title = category ? null : <div className="page_title"> CATEGORIES </div>;
   return (
-    <div className="categoryList blog-post-container">
-        {title}
-        <CategoryImage className="categoryImage"/>
-        {postsList}
-    </div>
+    <Layout location={props.location}>
+      <div className="categoryList blog-post-container">
+          {title}
+          <CategoryImage className="categoryImage"/>
+          {postsList}
+      </div>
+    </Layout>
   )
 }
 

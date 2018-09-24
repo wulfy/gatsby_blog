@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link, graphql } from 'gatsby'
 import { connect } from "react-redux"
 //browser monads s'appuie sur "nothing-type" pour définir window et document quand ces derniers 
 // n existent pas (typiquement côté rendu serveur)
@@ -18,6 +18,7 @@ import Menu from '../components/menu'
 import BlogTitle from '../components/blogTitle'
 import Me from '../components/me'
 import { scrollIt, getCatImage } from '../common/utils'
+import Layout from '../components/layout'
 
 const Container = props => <div {...props} style={{ overflow: 'hidden' }} />
 const SemiContainer = props => (
@@ -68,7 +69,7 @@ class IndexPage extends React.Component {
       }, [])
       catList.push(
         <div key={category} id={category} className="arrow">
-          <img src={categoryImage} />
+          <img alt={category} src={categoryImage} />
         </div>
       )
       postsList.push(
@@ -113,7 +114,8 @@ class IndexPage extends React.Component {
     const targetSection = e.target.dataset.section
     const element = document.querySelector(`#${targetSection}`)
     e.preventDefault()
-    element ? scrollIt(element, SCROLL_SECTION_DELAY, 'easeInOutQuint') : null
+    if(element)
+      scrollIt(element, SCROLL_SECTION_DELAY, 'easeInOutQuint')
   }
 
   handleReverseScroll = e => {
@@ -129,7 +131,6 @@ class IndexPage extends React.Component {
       : 0
 
     if (scrollValue <= this.initialScrollHeight) {
-      const hideHeader = scrollValue > this.previousScrollValue;
       this.previousScrollValue = scrollValue;
       this.titleAnimationEnabled = false
       this.setState(newCss)
@@ -139,7 +140,7 @@ class IndexPage extends React.Component {
       return false
     }
 
-    if (this.position != currentPosition) {
+    if (this.position !== currentPosition) {
       const category = categories[currentPosition];
       
       console.log('SELECTED ' + currentPosition + ' ' + category)
@@ -153,7 +154,7 @@ class IndexPage extends React.Component {
   render() {
     console.log('render');
     const {scrollValue} = this.props;
-    const { categories, catList, postsList, selected } = this.state
+    const { categories, catList, postsList } = this.state
     const nbSlide = catList ? catList.length : 0
     const currentPosition = document.documentElement.clientHeight
       ? Math.round(scrollValue / document.documentElement.clientHeight) - 1
@@ -175,23 +176,25 @@ class IndexPage extends React.Component {
     }
     selectedCategory = categories[currentPosition];
     return (
-      <Container id="home">
-        <Menu
-          categories={categories}
-          handleScrollToSection={this.handleScrollToSection}
-          selected={selectedCategory}
-        />
-        <Me className="me" />
-        <BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
-        <SemiContainer>
-          <ImagedContainer className="arrow" position="left" />
-          {catList}
-        </SemiContainer>
-        <RightContainer style={newCss.css}>
-          {postsList}
-          <ImagedContainer className="arrow" position="right" />
-        </RightContainer>
-      </Container>
+      <Layout location={this.props.location}>
+        <Container id="home">
+          <Menu
+            categories={categories}
+            handleScrollToSection={this.handleScrollToSection}
+            selected={selectedCategory}
+          />
+          <Me className="me" />
+          <BlogTitle titleAnimationEnabled={this.titleAnimationEnabled} />
+          <SemiContainer>
+            <ImagedContainer className="arrow" position="left" />
+            {catList}
+          </SemiContainer>
+          <RightContainer style={newCss.css}>
+            {postsList}
+            <ImagedContainer className="arrow" position="right" />
+          </RightContainer>
+        </Container>
+      </Layout>
     )
   }
 }

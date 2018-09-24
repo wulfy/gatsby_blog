@@ -15,8 +15,5 @@ import { renderToString } from 'react-dom/server'
 
 import createStore from './src/store/createStore'
 
-exports.replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
-  const store = createStore()
-  const ConnectedBody = () => <Provider store={store}>{bodyComponent}</Provider>
-  replaceBodyHTMLString(renderToString(<ConnectedBody />))
-}
+const store = createStore()
+export const wrapRootElement = ({ element }) => <Provider store={store}>{element}</Provider>;

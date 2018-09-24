@@ -1,35 +1,37 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import { graphql } from 'gatsby'
+
 import {
   DEFAULT_POST_IMG,
 } from '../common/constant'
+import Layout from '../components/layout'
 
-export default function Template({ data,pathContext }) {
+export default function Template({ data,pathContext,location }) {
   const { markdownRemark: post } = data
   const postImg = post.frontmatter.blogImage ? post.frontmatter.blogImage : DEFAULT_POST_IMG;
-  let html = post.html;
-  html = html.replace(/<code>/g, "<code class='hljs actionscript'>");
-  html = html.replace(/<\/code>/g, "<\/code>");
   const style = {
     background:`url("${postImg}")`,
     backgroundPosition: "center",
     backgroundSize: "cover",
   }
   return (
-    <div className="blog-post-container">
-      <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
-      <div className="blog-post">
-        <div className="postImage" style={style} />
-        <div className="post_metas">
-          <h1 className="post_title meta">{post.frontmatter.title}</h1>
-          <i className="post_date meta"> <i className="fas fa-calendar-alt"></i>  {post.frontmatter.date}</i>
+    <Layout location={location}>
+        <div className="blog-post-container">
+          <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
+          <div className="blog-post">
+            <div className="postImage" style={style} />
+            <div className="post_metas">
+              <h1 className="post_title meta">{post.frontmatter.title}</h1>
+              <i className="post_date meta"> <i className="fas fa-calendar-alt"></i>  {post.frontmatter.date}</i>
+            </div>
+            <div
+              className="blog-post-content"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
+          </div>
         </div>
-        <div
-          className="blog-post-content"
-          dangerouslySetInnerHTML={{ __html: post.html }}
-        />
-      </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,21 +1,25 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import { graphql } from 'gatsby';
 
+import Layout from '../components/layout'
 // import '../css/blog-post.css';
 
-export default function Template({ data }) {
+export default function Template({ data, location }) {
   const { markdownRemark: post } = data
   return (
-    <div className="blog-page-container">
-      <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
-      <div className="blog-post">
-        <h1>{post.frontmatter.title}</h1>
-        <div
-          className="blog-post-content"
-          dangerouslySetInnerHTML={{ __html: post.html }}
-        />
-      </div>
-    </div>
+    <Layout location={location}>
+        <div className="blog-page-container">
+          <Helmet title={`${data.site.siteMetadata.title} - ${post.frontmatter.title}`} />
+          <div className="blog-post">
+            <h1>{post.frontmatter.title}</h1>
+            <div
+              className="blog-post-content"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
+          </div>
+        </div>
+    </Layout>
   )
 }
 
