@@ -1020,6 +1020,15 @@ background-color:rgba(200, 200, 200, 0.3);
   .categoryList {
     max-width: 90vw;
   }
+  .header_items{
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .menu{
+    top:inherit;
+    bottom:20px;
+  }
 }
 
 @keyframes countdown {
