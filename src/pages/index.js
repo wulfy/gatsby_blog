@@ -20,7 +20,7 @@ import Me from '../components/me'
 import { scrollIt, getCatImage } from '../common/utils'
 import Layout from '../components/layout'
 
-const Container = props => <div {...props} style={{ overflow: 'hidden' }} />
+const Container = props => <div {...props} style={{ overflow: 'hidden', width:'100vw' }} />
 const SemiContainer = props => (
   <div
     {...props}
@@ -105,10 +105,6 @@ class IndexPage extends React.Component {
     this.initialScrollHeight = document.documentElement.scrollHeight
     console.log('did mount')
   }
-/*
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleReverseScroll)
-  }*/
 
   handleScrollToSection = e => {
     const targetSection = e.target.dataset.section
@@ -118,38 +114,6 @@ class IndexPage extends React.Component {
       scrollIt(element, SCROLL_SECTION_DELAY, 'easeInOutQuint')
   }
 
-  handleReverseScroll = e => {
-    const { categories } = this.state
-    const {scrollValue} = this.props;
-
-    const newCss = {
-      css: { transform: `translate(0px, ${scrollValue * 2}px)` },
-    }
-    // -1 car on ne compte pas la home (si l'icon est ajoutée il faudra enlever -1)
-    const currentPosition = document.documentElement.clientHeight
-      ? Math.round(scrollValue / document.documentElement.clientHeight) - 1
-      : 0
-
-    if (scrollValue <= this.initialScrollHeight) {
-      this.previousScrollValue = scrollValue;
-      this.titleAnimationEnabled = false
-      this.setState(newCss)
-    } else {
-      console.log('stop scrolling')
-      e.preventDefault()
-      return false
-    }
-
-    if (this.position !== currentPosition) {
-      const category = categories[currentPosition];
-      
-      console.log('SELECTED ' + currentPosition + ' ' + category)
-      this.setState({ ...this.state, selected: category })
-      //this.position = currentPosition
-    }
-
-    //$('.right').css('transform', 'translate3d(0,' + scrollValue*2 + 'px, 0)');
-  }
 
   render() {
     console.log('render');
