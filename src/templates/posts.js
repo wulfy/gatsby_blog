@@ -6,6 +6,7 @@ import {
   DEFAULT_POST_IMG,
 } from '../common/constant'
 import Layout from '../components/layout'
+import Disqus from '../components/disqus'
 
 export default function Template({ data,pathContext,location }) {
   const { markdownRemark: post } = data
@@ -30,6 +31,7 @@ export default function Template({ data,pathContext,location }) {
               dangerouslySetInnerHTML={{ __html: post.html }}
             />
           </div>
+          <Disqus page_url={post.frontmatter.path} page_identifier={post.id} />
         </div>
     </Layout>
   )
@@ -48,6 +50,7 @@ export const pageQuery = graphql`
     }
     markdownRemark(frontmatter: { path: { eq: $postPath } }) {
       html
+      id
       frontmatter {
         date(formatString: "MMMM DD, YYYY")
         path
