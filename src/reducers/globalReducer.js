@@ -6,7 +6,6 @@ export default function scrollReducer(state = defaultState, action) {
 			const scrollingDown = state.scrollValue < action.value;
 			//console.log("SCROLL!!!")
 			return {...state, scrollValue:action.value, scrollingDown};
-			break;
 		default :
 			return state;
 	}
