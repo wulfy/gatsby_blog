@@ -1,14 +1,33 @@
 ---
 path: "/Alexa-homekit-skill"
 date: "2017-07-12T17:12:33.962Z"
-title: "My first Alexa homekit skill"
+title: "Ma première skill ALexa"
 blogImage: "/amazon_alexa.jpeg"
 ---
 
 # Alexa homekit
 
-## OAuth
+## Qu'est ce que Alexa ?
+Alexa est l'assistant vocal d'Amazon. Il est capable de "comprendre" certaines demande vocale et y répondre (soit en fournissant une information soit en effectuant une action). On peut donc lui demander quel temps il fait, quel est le temps de parcours pour se rendre à son travail, d'ouvrir les volets ou même d'allumer le micro onde à une certaines heure.
 
+La plupart des assistants fonctionnent sur le même principe, cependant Alexa a une particularité : Les skills.
+
+## Que sont les "SKILLs" ?
+Les skills peuvent être considérées comme des "applications" qui étendent les possibilités d'Alexa. Tout comme sur mobile, elle permettent de jouer à des jeux ou piloter des appareils qui, nativement, ne sont pas supportés par Alexa.
+
+Cet article s'intéresse justement à un type de SKILL : les skills "homekit" qui permettent de piloter des appareils connectés (zwave, RFY, etc.). Ces skills existent chez certains concurrents (comme Google) et les fonctionnalités sont similaires.
+Alexa m'apparait néanmoins plus "pratique" par la possibilité de tester sa skill sans la publier, directement sur son enceinte Alexa.
+
+## Créons une skill
+
+### Principe de base
+Quelle que soit la skill, le principe de base est :
+* Alexa reçoit la commande vocale de l'utilisateur et l'analyse pour détecter si l'utilisateur invoque une skill et les paramètres (cf ![la doc officielle](https://developer.amazon.com/fr/docs/custom-skills/understanding-how-users-invoke-custom-skills.html))
+* Alexa appelle ensuite la skill en lui passant les paramètres détectés (action, mots de connexion, etc.)
+* La skill retourne une phrase qu'Alexa lira et/ou exécute une action spécifique (par exemple commander une pizza).
+
+
+OAUTH
 ### Process
 The following diagram illustrates the initial setup when the user links their account and Alexa obtains the access token from your authorization server.
 ![Authorization code grant flow](https://m.media-amazon.com/images/G/01/mobile-apps/dex/ask-accountlinking/auth-code-grant-flow-sequence._TTH_.png)
