@@ -16,7 +16,7 @@ La plupart des assistants fonctionnent sur le même principe, cependant Alexa a 
 Les skills peuvent être considérées comme des "applications" qui étendent les possibilités d'Alexa. Tout comme sur mobile, elle permettent de jouer à des jeux ou piloter des appareils qui, nativement, ne sont pas supportés par Alexa.
 
 Cet article s'intéresse justement à un type de SKILL : les skills "homekit" qui permettent de piloter des appareils connectés (zwave, RFY, etc.). Ces skills existent chez certains concurrents (comme Google) et les fonctionnalités sont similaires.
-Alexa m'apparait néanmoins plus "pratique" par la possibilité de tester sa skill sans la publier, directement sur son enceinte Alexa.
+Alexa m'apparait néanmoins plus "pratique" par la possibilité de tester sa skill sans la publier, directement sur son ensceinte Alexa.
 
 ## Créons une skill
 
@@ -26,18 +26,32 @@ Quelle que soit la skill, le principe de base est :
 * Alexa appelle ensuite la skill en lui passant les paramètres détectés (action, mots de connexion, etc.)
 * La skill retourne une phrase qu'Alexa lira et/ou exécute une action spécifique (par exemple commander une pizza).
 
+### Implémentation technique
+* La commande vocale est traitée directement par le service ALEXA d'Amazon, il est donc nécessaire de créer une "SKILL" qui effectuera des actions en fonction des paramètres de la commande reçue (https://developer.amazon.com/alexa/console)
+Cette SKILL se décompose en 2 parties
+- la partie console d'Alexa qui sert à configurer, tester et publier la skill
+- La partie "code" hébergée sur un serveur tier (AWS la plupart du temps pour simplifier le fonctionnement) qui sera chargé d'effectuer une action.
+* Dans certains cas il est possible d'associer en OAUTH un compte externe sur la skill qui permet de lui donner accès à certaines informations (compte Amazon pour une skill d'achat, serveur de domotique pour une smart home skill, etc.).
+Ce service est géré par un serveur supportant OAUTH2. Alexa se chargera automatiquement d'appeler le formulaire de connexion et maintenir à jour le token (via refresh token)
 
-OAUTH
-### Process
-The following diagram illustrates the initial setup when the user links their account and Alexa obtains the access token from your authorization server.
+
+### Créer une "smart home skill" Alexa
+#### Créer la skill sur Alexa
+Il suffit de créer un compte sur Alexa developper (https://developer.amazon.com/alexa/) et créer sa skill "smart home".
+il faudra configurer dans "build" le payload 
+.....
+
+#### Créer le service OAUTH2
+##### Schéma de fonctionnement OAUTH2
+Le schéma qui suit illustre le service permettant à un utilisateur d'associer sont compte  à Alexa et fournir le token d'accès.
 ![Authorization code grant flow](https://m.media-amazon.com/images/G/01/mobile-apps/dex/ask-accountlinking/auth-code-grant-flow-sequence._TTH_.png)
 *Authorization code grant flow*
 
-This diagram shows the flow when the user makes a request to the skill and the skill then uses the access token to retrieve information from the resource server.
+Le diagrame suivant schématise le workflow d'utilisation du token par Alexa pour retrouver les informations concernant le compte de l'utilisateur 
 ![Skill interaction sequence](https://m.media-amazon.com/images/G/01/mobile-apps/dex/ask-accountlinking/skill-interaction-sequence._TTH_.png)
 *Skill interaction sequence*
 
-### Exchange format
+##### Format d'échange
 
 For example, if the authorization URI for your page is https://www.carfu.com/login, the URL called by the Alexa app might look like this:
 
@@ -82,7 +96,7 @@ Content-Type: application/json
 }
 ```
 
-### Debug
+##### Debug
 https://developer.amazon.com/fr/blogs/post/TxQN2C04S97C0J/how-to-set-up-amazon-api-gateway-as-a-proxy-to-debug-account-linking
 
 https://forums.developer.amazon.com/articles/38610/alexa-debugging-account-linking.html
