@@ -1,20 +1,27 @@
 import React from 'react'
-import scriptLoader from '../common/scriptLoader'
+import { loadScript, removeScript } from '../common/scriptLoader'
+import { document, window } from 'browser-monads';
 
 const Disqus = props => {
   const {page_url,page_identifier} = props;
-  const disqusScript = `
-          var disqus_config = function () {
-            this.page.url = page_url;  
+  const disqus_shortname = "wulfy-eu";
+  const disqusSrc = `https://${disqus_shortname}.disqus.com/embed.js`;
+  const disqusConfig = function () {
+    return function () {
             this.page.identifier = page_identifier;
+            this.page.url = page_url;
+            this.page.title = page_identifier;
           };
-          (function() { // DON'T EDIT BELOW THIS LINE
-          var d = document, s = d.createElement('script');
-          s.src = 'https://wulfy-eu.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-          })()`;
-  scriptLoader({script:disqusScript});
+  };
+
+  if (window && window.DISQUS && document.getElementById('dsq-embed-scr')) {
+      setTimeout(()=>window.DISQUS.reset({reload:true}),2000);
+  } else {
+    window.disqus_config = disqusConfig;
+    window.disqus_shortname = disqus_shortname
+    loadScript({src:disqusSrc,id:'dsq-embed-scr'});
+  }
+
   return (
     <div id="disqus_thread">
     </div>

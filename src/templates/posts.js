@@ -8,7 +8,8 @@ import {
 import Layout from '../components/layout'
 import Disqus from '../components/disqus'
 
-export default function Template({ data,pathContext,location }) {
+//https://www.gatsbyjs.org/tutorial/part-seven/#creating-slugs-for-pages
+export default ({ data,pathContext,location }) => {
   const { markdownRemark: post } = data
   const postImg = post.frontmatter.blogImage ? post.frontmatter.blogImage : DEFAULT_POST_IMG;
   const style = {
@@ -16,6 +17,7 @@ export default function Template({ data,pathContext,location }) {
     backgroundPosition: "center",
     backgroundSize: "cover",
   }
+  console.log("re render posts");
   return (
     <Layout location={location}>
         <div className="blog-post-container">
