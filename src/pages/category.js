@@ -8,7 +8,7 @@ import Layout from '../components/layout'
 const Category = props => {
   const { edges: posts } = props.data.allMarkdownRemark
   const {
-    pathContext: { category },
+    pageContext: { category },
   } = props
 
     let postsList = []
