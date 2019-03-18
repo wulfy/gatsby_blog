@@ -30,18 +30,21 @@ Quelle que soit la skill, le principe de base est :
 * La commande vocale est traitée directement par le service ALEXA d'Amazon, il est donc nécessaire de créer une "SKILL" qui effectuera des actions en fonction des paramètres de la commande reçue (https://developer.amazon.com/alexa/console)
 Cette SKILL se décompose en 2 parties
 - la partie console d'Alexa qui sert à configurer, tester et publier la skill
-- La partie "code" hébergée sur un serveur tier (AWS la plupart du temps pour simplifier le fonctionnement) qui sera chargé d'effectuer une action.
+- La partie "code" hébergée sur un serveur tier (AWS la plupart du temps pour simplifier le fonctionnement) qui sera chargé d'effectuer une action pour la commande identifiée en implémentant le format d'échange d'Alexa.
 * Dans certains cas il est possible d'associer en OAUTH un compte externe sur la skill qui permet de lui donner accès à certaines informations (compte Amazon pour une skill d'achat, serveur de domotique pour une smart home skill, etc.).
 Ce service est géré par un serveur supportant OAUTH2. Alexa se chargera automatiquement d'appeler le formulaire de connexion et maintenir à jour le token (via refresh token)
 
 
 ### Créer une "smart home skill" Alexa
+
 #### Créer la skill sur Alexa
 Il suffit de créer un compte sur Alexa developper (https://developer.amazon.com/alexa/) et créer sa skill "smart home".
 il faudra configurer dans "build" le payload 
 .....
 
+
 #### Créer le service OAUTH2
+
 ##### Schéma de fonctionnement OAUTH2
 Le schéma qui suit illustre le service permettant à un utilisateur d'associer sont compte  à Alexa et fournir le token d'accès.
 ![Authorization code grant flow](https://m.media-amazon.com/images/G/01/mobile-apps/dex/ask-accountlinking/auth-code-grant-flow-sequence._TTH_.png)
@@ -50,6 +53,20 @@ Le schéma qui suit illustre le service permettant à un utilisateur d'associer 
 Le diagrame suivant schématise le workflow d'utilisation du token par Alexa pour retrouver les informations concernant le compte de l'utilisateur 
 ![Skill interaction sequence](https://m.media-amazon.com/images/G/01/mobile-apps/dex/ask-accountlinking/skill-interaction-sequence._TTH_.png)
 *Skill interaction sequence*
+
+Le fonctionnement est assez simple, le but est d'utiliser une identification sur une plateforme externe pour donner l'autorisation de se connecter à Alexa.
+1. En premier lieu l'application qui souhaite utiliser OAUTH fait un appel au service d'identification 
+2.  Le service d'identification va afficherun formulaire à l'utilisateur
+3.  ce dernier, une fois correctement identifié, sera redirigé vers le service appelant (Alexa) avec un code d'identification valide pendant une courte durée
+4.  Alexa va présenter ce code au service OAUTH et obtenir un "TOKEN" d'identification, unique et permettant d'identifier, à chaque futur appel, l'utilisateur
+
+*Exemple:
+Après identification l'utilisateur obtient le token aaabbb.
+S'il lance la commande "Alexa ouvre le volet", Alexa va appeler la skill avec la commande "ouvre le volet" et présenter le token aaabbb.
+La skill va demander au serveur OAUTH à quel utilisateur appartient ce token et récupérer les paramètres de connexion au serveur Domoticz.
+A aucun moment les codes d'identification transitent entre l'utilisateur et Alexa. 
+Par contre Alexa et le serveur d'application font transiter des données protégées (accès à Domoticz) mais de serveur à serveur en HTTPS (donc limitant les risques d'interception).*
+
 
 ##### Format d'échange
 
