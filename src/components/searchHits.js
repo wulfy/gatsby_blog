@@ -5,8 +5,7 @@ import { DEFAULT_POST_IMG } from '../common/constant';
 
 const MAX_CHARS = 500;
 const hits = ({hit}) => {
-  console.log(hit.html);
-    let preview = hit.html.match(/<p>((s*))(.*)/)[0];
+    let preview = hit.html.match(/<p>((s*))(.*)/) ? hit.html.match(/<p>((s*))(.*)/)[0] : '';
 
     if(preview.length > MAX_CHARS)
     {
