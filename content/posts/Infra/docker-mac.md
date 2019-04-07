@@ -104,3 +104,6 @@ Permet de choisir automatiquement le bon mode de synchro entre host et container
 Il propose aussi un mode à base de RSYNC mais je n'ai pas vu une grosse différence avec le délégated.
 Peut éventuellement etre une solution si on a besoin d'une garantie de cohérence des données > à `delegated`
 
+####Redémarrer après mise en veille
+Certains blogs remontent que la mise en veille du mac et Docker ne font pas bon ménage.
+S'il vous arrive de mettre en veille votre Mac avec docker de lancé et que vous constatez par moment de mauvaises performances => pensez à redémarrer docker (quit et restart). 

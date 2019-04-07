@@ -39,8 +39,18 @@ Ce service est géré par un serveur supportant OAUTH2. Alexa se chargera automa
 
 #### Créer la skill sur Alexa
 Il suffit de créer un compte sur Alexa developper (https://developer.amazon.com/alexa/) et créer sa skill "smart home".
-il faudra configurer dans "build" le payload 
-.....
+il faudra configurer dans "build" le payload.
+Cette skill est une application qui permet de faire le pont entre l'IA ALexa qui va décoder la voix de l'utilisateur et le code qui va ensuite exécuter quelque chose en fonction de ces commandes.
+Ce code peut être hébergé n'importe où mais il est beaucoup plus facile de le mettre sur une lambda.
+
+#### Créer une lambda pour héberger le code
+Une Lambda est une instance d'exécution qui permet, à la demande, de lancer du code sans serveur.
+On appelle ces instances "server less", une fois le code lancé l'état est perdu.
+
+Dans le cas d'Alexa, le but de l'instance est de recevoir la commande de l'utilisateur, traiter cette commande et envoyer un retour à Alexa (success ou error).
+
+Ma première skill se borne à transformer les requêtes de l'utilisateur en commandes DOMOTICZ qui vont actionner des appareils connectés.
+
 
 
 #### Créer le service OAUTH2
