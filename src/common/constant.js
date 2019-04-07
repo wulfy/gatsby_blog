@@ -7,7 +7,7 @@ export const CAT_IMG = {
 export const CAT_ICON = {
   home: 'little_home.png',
   Divers:'/homer.png',
-  JS:'nodejs.png',
+  JS:'/nodejs.png',
   Infra:'/docker.png',
   Alexa:'/alexa.png'
 }
