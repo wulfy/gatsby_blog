@@ -100,9 +100,118 @@ services:
 
 ####Docker sync
 http://docker-sync.io/
-Permet de choisir automatiquement le bon mode de synchro entre host et container.
-Il propose aussi un mode à base de RSYNC mais je n'ai pas vu une grosse différence avec le délégated.
-Peut éventuellement etre une solution si on a besoin d'une garantie de cohérence des données > à `delegated`
+Le principe est assez simple, docker-sync va créer des containers de "synchronisation" qui seront utilisés dans le container de l'application.
+Ces containers de synchro correspondent à des répertoires de l'application, l'idée est de faire en sorte que l'application tourne exclusivement sur ces containers et donc ne passe pas par le système de fichier de MACOSX.
+Pour se faire docker-sync va créer synchroniser, à la première execution, les containers en question.
+Puis des outils de synchro vont scruter les changements sur le système de fichier local et s'occuper de faire la copie des fichiers modifiés .
+Etant donné que les modifications sont peu nombreuses, cette synchronisation est relativement rapide.
+Par contre, le fait que les très nombreuses lectures sont faites sur les containers directement, va grandement améliorer les performances (quasi équivalentes à celles d'une application locale sans docker).
+
+####Configuration
+Il faut déjà télécharger et installer docker-sync  https://docker-sync.readthedocs.io/en/latest/getting-started/installation.html .
+Une fois fait, un fichier docker-sync.yml, à la racine de l'application, se chargera de définir les répertoirs à synchroniser et les stratégies à appliquer.
+Enfin, il faut modifier le fichier docker-compose de l'application pour que les répertoirs utilisés soient configurés sur les volumes créés par docker-sync et non ceux du système de fichier de MACOSX.
+
+Exemple : 
+<pre>
+    <code class='Yaml'>
+        app:
+        image: php:7.3-dev
+        depends_on:
+            - database
+            - mailhog
+        environment:
+            - NODE_ENV=development
+            - LOGGY_STACKS=1
+        environment:
+            - COMPOSER_CACHE_DIR=/home/app/.cache/composer
+            - COMPOSER_HOME=/home/app/.config/composer
+            - YARN_CACHE_FOLDER=/home/node/.cache/yarn
+        volumes:
+            - ~/.cache/composer:/home/app/.cache/composer
+            - ~/.config/composer:/home/app/.config/composer
+            - ~/.cache/yarn:/home/node/.cache/yarn
+            - ~/.aws/credentials:/home/app/.aws/credentials
+            - mediatools-sync:/srv/:nocopy
+            - mediatools-vendor:/srv/vendor/:nocopy
+            - mediatools-node_modules:/srv/node_modules/:nocopy
+
+        volumes:
+            mediatools-sync:
+                external: true
+            mediatools-vendor:
+                 external: true
+            mediatools-node_modules:
+                 external: true
+    </code>
+</pre>
+
+Dans cet exemple les volumes ``` mediatools-sync ``` , ``` mediatools-vendor ``` , ``` mediatools-node_modules ``` ont été créés pour les différents répertoires de l'application.
+Cette configuration peut etre utilisée dans un docker-compose-override (ou docker-sync.compose.override.yml dans notre exemple) afin de ne pas polluer le docker-compose des collègues.
+
+Ces volumes sont configurés dans le fichier docker-sync ci-après :
+
+<pre>
+    <code class='Yaml'>
+        version: "2"
+        options:
+          verbose: true
+           # default: docker-compose.yml if you like, you can set a custom location (path) of your compose file like ~/app/compose.yml
+          # HINT: you can also use this as an array to define several compose files to include. Order is important!
+          compose-file-path: 'docker-sync.compose.override.yml'
+          #compose-dev-file-path: 'docker-compose.override-sync.yml'
+
+        syncs:
+          #IMPORTANT: ensure this name is unique and does not match your other application container name
+          mediatools-sync: #tip: add -sync and you keep consistent names as a convention
+            src: './'
+            sync_host_port: 10873
+            sync_strategy: 'rsync'
+            sync_args: '--delete'
+            #sync_args: '-prefer newer -copyonconflict'
+            host_disk_mount_mode: 'cached'
+            sync_excludes: ["var/cache", "public/", "var/log", ".idea", ".git", ".docker-sync", "ui/assets","node_modules","vendor"]
+            notify_terminal: true
+
+          mediatools-vendor:
+            src: './vendor'
+            sync_strategy: 'native_osx'
+            host_disk_mount_mode: 'cached'
+            notify_terminal: true
+            monit_high_cpu_cycles: 2
+
+          mediatools-node_modules:
+            src: './node_modules'
+            sync_strategy: 'native_osx'
+            host_disk_mount_mode: 'cached'
+            notify_terminal: true
+            monit_high_cpu_cycles: 2
+    </code>
+</pre>
+
+La première option définit le fichier docker-compose à utiliser (docker-sync.compose.override.yml).
+
+On peut remarquer que les volumes n'ont pas la même stratégie.
+``` mediatools-sync ``` utilise du rsync
+``` mediatools-vendor ``` et ``` mediatools-node_modules ``` du unison.
+
+La raison est simple:
+- Rsync est la méthode la plus rapide mais ne fonctionne que dans un sens MACOSX -> Container.
+Impossible donc de lancer un yarn ou un composer dans le conteneur pour mettre à jour les données sur le local.
+=> Idéal pour les fichiers sources de l'application (sans les vendors) qui sont modifiés uniquement sur le poste local via l'IDE et bougent souvent.
+- Unison permet une synchro dans les 2 sens MAOSX <-> Container.
+Ainsi, une modif sur le MAC est reportée sur le Container et inversement.
+=> idéal pour les vendor et les node_module qui sont principalement créés/modifiés par le container et les scripts d'install
+
+Il aurait pu être possible de ne pas synchroniser node_modules et vendor pour les laisser dans le volume mais par choix (plus facile de vérifier les libs) ils remontent aussi en local.
+
+Petite subtilité: ``` mediatools-sync ``` cible tout le répertoire de l'application et va exclure ceux qui ne nécessitent pas de synchronisation.
+ATTENTION : si RSYNC et UNISON synchronise le même répertoire, on peut se retrouver dans un cas instable où RSYNC tente de supprimer ce qui n'existe pas sur le local et Unison qui tente d'ajouter au local les fichiers présents sur le container.
+
+####Utilisation
+Une fois la configuration effectuée, la commande ``` docker-sync-stack start ``` permet de créer les containers de synchronisation, lancer les synchros et enfin créer et lancer les containers de l'application.
+Cette commande continue de tourner et affiche les sorties consoles des containers. C'est utile surtout pour voir passer les commandes de synchronisation et la confirmation lorsque la synchro est terminée.
+Si on suspend la commande via ``` CTRL + C ``` , docker-sync est arrêté et les containers stoppés.
 
 ####Redémarrer après mise en veille
 Certains blogs remontent que la mise en veille du mac et Docker ne font pas bon ménage.
