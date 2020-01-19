@@ -3,6 +3,10 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
+const ALGOLIA_API_ID = process.env.ALGOLIA_API_ID;
+const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY;
+const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
+
 const _ = require('lodash')
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
@@ -15,6 +19,11 @@ const getComponent = type =>
   fs.existsSync(path.resolve(`src/templates/${type}.js`))
     ? path.resolve(`src/templates/${type}.js`)
     : path.resolve(`src/templates/pages.js`)
+
+
+const algoliasearch = require('algoliasearch');
+const client = algoliasearch(ALGOLIA_API_ID, ALGOLIA_API_KEY);
+const index = client.initIndex(ALGOLIA_INDEX_NAME);
 
 //When you implement a Gatsby API, you're passed a collection of "Bound Action Creators"
 // (functions which create and dispatch Redux actions when called) which you can use to manipulate state on your site.
@@ -131,4 +140,10 @@ exports.createPages = ({ actions, graphql }) => {
       })// end then
     )// end resolve
   })//end promise
+}
+
+//empty algolia search to prevent double posts declaration
+exports.onPreBuild = () => {
+  index
+  .clearIndex();
 }
