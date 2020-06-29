@@ -145,5 +145,5 @@ exports.createPages = ({ actions, graphql }) => {
 //empty algolia search to prevent double posts declaration
 exports.onPreBuild = () => {
   index
-  .clearIndex();
+  .clearObjects();
 }
