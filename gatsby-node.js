@@ -21,9 +21,13 @@ const getComponent = type =>
     : path.resolve(`src/templates/pages.js`)
 
 
-const algoliasearch = require('algoliasearch');
-const client = algoliasearch(ALGOLIA_API_ID, ALGOLIA_API_KEY);
-const index = client.initIndex(ALGOLIA_INDEX_NAME);
+// Only initialize Algolia if credentials are provided
+let client, index;
+if (ALGOLIA_API_ID && ALGOLIA_API_KEY && ALGOLIA_INDEX_NAME) {
+  const algoliasearch = require('algoliasearch');
+  client = algoliasearch(ALGOLIA_API_ID, ALGOLIA_API_KEY);
+  index = client.initIndex(ALGOLIA_INDEX_NAME);
+}
 
 //When you implement a Gatsby API, you're passed a collection of "Bound Action Creators"
 // (functions which create and dispatch Redux actions when called) which you can use to manipulate state on your site.
@@ -79,7 +83,7 @@ exports.createPages = ({ actions, graphql }) => {
         graphql(`
         {
           allMarkdownRemark(
-            sort: { order: DESC, fields: [frontmatter___date] }
+            sort: { frontmatter: { date: DESC } }
             limit: 1000
           ) {
             edges {
@@ -144,6 +148,7 @@ exports.createPages = ({ actions, graphql }) => {
 
 //empty algolia search to prevent double posts declaration
 exports.onPreBuild = () => {
-  index
-  .clearObjects();
+  if (index) {
+    index.clearObjects();
+  }
 }

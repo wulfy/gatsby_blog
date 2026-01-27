@@ -58,42 +58,48 @@ const queries = [
   },
 ];
 
+// Base plugins that should always be included
+const plugins = [
+  'gatsby-plugin-react-helmet',
+  {
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      name: `src`,
+      path: `${__dirname}/src/`,
+    },
+  },
+  {
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      path: `${__dirname}/content/`,
+      name: 'pageAndposts',
+    },
+  },
+  {
+    resolve: 'gatsby-transformer-remark',
+    options: {
+      plugins: [], // just in case those previously mentioned remark plugins sound cool :)
+    },
+  },
+];
+
+// Only add Algolia plugin if credentials are provided
+if (ALGOLIA_API_ID && ALGOLIA_API_KEY && ALGOLIA_INDEX_NAME) {
+  plugins.push({
+    resolve: `gatsby-plugin-algolia`,
+    options: {
+      appId: ALGOLIA_API_ID,
+      apiKey: ALGOLIA_API_KEY,
+      indexName: ALGOLIA_INDEX_NAME, // for all queries
+      queries,
+      chunkSize: 10000, // default: 1000
+    },
+  });
+}
 
 module.exports = {
   siteMetadata: {
     title: "Wulfy's blog",
   },
-  plugins: [
-    'gatsby-plugin-react-helmet',
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `src`,
-        path: `${__dirname}/src/`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/content/`,
-        name: 'pageAndposts',
-      },
-    },
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: [], // just in case those previously mentioned remark plugins sound cool :)
-      },
-    },
-    {
-      resolve: `gatsby-plugin-algolia`,
-      options: {
-        appId: ALGOLIA_API_ID,
-        apiKey: ALGOLIA_API_KEY,
-        indexName: ALGOLIA_INDEX_NAME, // for all queries
-        queries,
-        chunkSize: 10000, // default: 1000
-      },
-    },
-  ],
+  plugins,
 }
