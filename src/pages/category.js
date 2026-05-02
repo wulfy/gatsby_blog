@@ -54,7 +54,7 @@ const Category = props => {
 export const categoryQuery = graphql`
   query postsByCategory {
     allMarkdownRemark(
-      sort: { order: DESC, fields: [frontmatter___date] }
+      sort: { frontmatter: { date: DESC } }
       limit: 1000
     ) {
       edges {

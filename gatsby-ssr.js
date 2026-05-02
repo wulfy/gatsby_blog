@@ -9,9 +9,7 @@
 // les routes ne sont pas prises en compte mais ce n'est pas grave car c'est côté client que le routing sera calculé
 // le rendu d'une page ne dépend pas du routing (les liens sont évalués côté client)
 import React from 'react'
-import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { renderToString } from 'react-dom/server'
 
 import createStore from './src/store/createStore'
 

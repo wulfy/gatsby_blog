@@ -7,7 +7,7 @@ import { getCatImage } from '../common/utils'
 const PostOrPage = props => {
   const posts = props.data ? props.data.results.edges : [];
   const {
-    pathContext: { category },
+    pageContext: { category },
   } = props
 
     let postsList = []
@@ -52,7 +52,7 @@ export const postOrPageQuery = graphql`
   query ($type : String = "posts") {
     results: allMarkdownRemark(
       filter: { fields : {type: { eq: $type }}}
-      sort: { order: DESC, fields: [frontmatter___date] }
+      sort: { frontmatter: { date: DESC } }
       limit: 1000
     ) {
       edges {

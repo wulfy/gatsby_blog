@@ -173,7 +173,7 @@ const mapStateToProps = state => {
 export const categoryQuery = graphql`
   query PostsByCategories {
     allMarkdownRemark(
-      sort: { order: DESC, fields: [frontmatter___date] }
+      sort: { frontmatter: { date: DESC } }
       limit: 1000
     ) {
       edges {
