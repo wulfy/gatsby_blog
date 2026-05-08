@@ -26,12 +26,19 @@ const oldquery = `{
 }`;
 
 //query utilisée pour remonter les infos à Algolia
+//`internal.contentDigest` est requis : gatsby-plugin-algolia s'en sert
+//comme marker "ce record est géré par moi", et n'efface pas les records
+//qui ne l'ont pas. Sans ce champ, les posts retirés de la query restent
+//en stale dans l'index.
 const query = `{
  allMarkdownRemark {
    edges {
      node {
       objectID: id
       html
+      internal {
+        contentDigest
+      }
       frontmatter {
             path
             category
