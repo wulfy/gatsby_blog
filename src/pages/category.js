@@ -11,17 +11,24 @@ const Category = props => {
     pageContext: { category },
   } = props
 
+    const isProduction = process.env.NODE_ENV === 'production'
+    const visiblePosts = isProduction
+      ? posts.filter(({ node }) => node.frontmatter.published !== false)
+      : posts
+
     let postsList = []
-    const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
+    const postByCats = _.groupBy(visiblePosts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);
     _.forEach(postByCats, (posts, currentCategory) => {
       if(category && category !== currentCategory)
       {
         return;
       }
       const postsListItems = posts.reduce((acc, { node: { frontmatter, fields } }) => {
+        const isDraft = frontmatter.published === false
         acc.push(
           <li key={frontmatter.title}>
             <Link to={`${fields.slug}`}>{frontmatter.title}</Link>
+            {isDraft && <i className="fas fa-times" style={{ color: 'red', marginLeft: '8px' }} title="Not published" />}
           </li>
         )
         return acc
@@ -73,6 +80,7 @@ export const categoryQuery = graphql`
             path
             category
             title
+            published
           }
         }
       }

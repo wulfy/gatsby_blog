@@ -52,17 +52,25 @@ class IndexPage extends React.Component {
   	didMount can't do it because it is fired AFTER rendering and it
   	calculate the total height (so it needs to have all elements already rendered  ) */
 
+    const isProduction = process.env.NODE_ENV === 'production'
+    //En prod les posts non publiés sont retirés. En dev ils restent visibles avec un marqueur.
+    const visiblePosts = isProduction
+      ? posts.filter(({ node }) => node.frontmatter.published !== false)
+      : posts
+
     let catList = []
     let postsList = []
-    const postByCats = _.groupBy(posts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);//TODO: regroup this funtion and others bellow to have same code for cat AND index
+    const postByCats = _.groupBy(visiblePosts, ({node}) => node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category);//TODO: regroup this funtion and others bellow to have same code for cat AND index
     const categories = []
     _.forEach(postByCats, (posts, category) => {
       categories.push(category)
       const categoryImage = getCatImage(category)
       const postsListItems = posts.reduce((acc, { node: { frontmatter, fields } }) => {
+        const isDraft = frontmatter.published === false
         acc.push(
           <li key={frontmatter.title}>
             <Link to={`${fields.slug}`}>{frontmatter.title}</Link>
+            {isDraft && <i className="fas fa-times" style={{ color: 'red', marginLeft: '8px' }} title="Not published" />}
           </li>
         )
         return acc
@@ -192,6 +200,7 @@ export const categoryQuery = graphql`
             path
             category
             title
+            published
           }
         }
       }
