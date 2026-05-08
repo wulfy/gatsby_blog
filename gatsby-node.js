@@ -29,6 +29,21 @@ if (ALGOLIA_API_ID && ALGOLIA_API_KEY && ALGOLIA_INDEX_NAME) {
   index = client.initIndex(ALGOLIA_INDEX_NAME);
 }
 
+const isProduction = process.env.NODE_ENV === 'production'
+
+//Déclare le champ `published` du frontmatter pour qu'il soit toujours présent dans le schéma,
+//même si aucun post ne le définit encore (sinon les requêtes GraphQL le sélectionnant échouent).
+exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type MarkdownRemarkFrontmatter {
+      published: Boolean
+    }
+    type MarkdownRemark implements Node {
+      frontmatter: MarkdownRemarkFrontmatter
+    }
+  `)
+}
+
 //When you implement a Gatsby API, you're passed a collection of "Bound Action Creators"
 // (functions which create and dispatch Redux actions when called) which you can use to manipulate state on your site.
 //The object actions contains the functions and these can be individually extracted by using ES6 object destructuring.
@@ -103,6 +118,7 @@ exports.createPages = ({ actions, graphql }) => {
                 frontmatter {
                   path
                   category
+                  published
                 }
               }
             }
@@ -114,6 +130,10 @@ exports.createPages = ({ actions, graphql }) => {
         }
 
         result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+          //En prod on n'expose pas les pages des posts non publiés (404 plutôt qu'une URL accessible).
+          if (isProduction && node.frontmatter.published === false) {
+            return;
+          }
           const category = node.fields.defaultCategory ? node.fields.defaultCategory : node.frontmatter.category;
           const type = node.fields.type ;
           createPage({

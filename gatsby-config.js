@@ -36,6 +36,7 @@ const query = `{
             path
             category
             title
+            published
           }
       image: frontmatter { blogImage}
       fields {
@@ -50,10 +51,14 @@ const query = `{
 }`;
 
 //transformer pour mapper les données dans algolia
+//Les posts marqués `published: false` ne doivent jamais finir dans l'index (sinon recherche → 404).
 const queries = [
   {
     query,
-    transformer: ({ data }) => data.allMarkdownRemark.edges.map(({ node }) => node), // optional
+    transformer: ({ data }) =>
+      data.allMarkdownRemark.edges
+        .map(({ node }) => node)
+        .filter(node => node.frontmatter.published !== false),
     indexName: 'wulfy_blog', // overrides main index name, optional
   },
 ];

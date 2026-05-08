@@ -9,6 +9,17 @@ import Layout from '../components/layout'
 import Disqus from '../components/disqus'
 
 //https://www.gatsbyjs.org/tutorial/part-seven/#creating-slugs-for-pages
+const notPublishedBannerStyle = {
+  display: 'inline-block',
+  marginTop: '8px',
+  padding: '4px 10px',
+  background: '#d32f2f',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontStyle: 'normal',
+  borderRadius: '3px',
+}
+
 export default ({ data,pathContext,location }) => {
   const { markdownRemark: post } = data
   const postImg = post.frontmatter.blogImage ? post.frontmatter.blogImage : DEFAULT_POST_IMG;
@@ -17,6 +28,8 @@ export default ({ data,pathContext,location }) => {
     backgroundPosition: "center",
     backgroundSize: "cover",
   }
+  //En prod cette page n'est pas générée pour les drafts, le badge est donc une aide visuelle de dev.
+  const showDraftBadge = process.env.NODE_ENV !== 'production' && post.frontmatter.published === false
   console.log("re render posts");
   return (
     <Layout location={location}>
@@ -27,6 +40,11 @@ export default ({ data,pathContext,location }) => {
             <div className="post_metas">
               <h1 className="post_title meta">{post.frontmatter.title}</h1>
               <i className="post_date meta"> <i className="fas fa-calendar-alt"></i>  {post.frontmatter.date}</i>
+              {showDraftBadge && (
+                <div>
+                  <span style={notPublishedBannerStyle}>Not published</span>
+                </div>
+              )}
             </div>
             <div
               className="blog-post-content"
@@ -58,6 +76,7 @@ export const pageQuery = graphql`
         path
         title
         blogImage
+        published
       }
     }
   }
