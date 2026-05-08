@@ -1,5 +1,5 @@
 ---
-path: "/docker-mac"
+path: "/covid-19"
 date: "2020-12-30T19:07:33.962Z"
 title: "Covid 19 🦠 - Q/R "
 blogImage: "https://photos.lci.fr/images/1280/720/covid-19-coronavirus-virus-illustration-2089fa-0@1x.jpeg"
