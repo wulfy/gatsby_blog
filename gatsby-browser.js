@@ -20,3 +20,5 @@ export const wrapRootElement = ({ element }) => {
 
     return ConnectedRootElement
 }
+
+export const onServiceWorkerUpdateReady = () => window.location.reload()
