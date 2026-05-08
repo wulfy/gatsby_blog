@@ -3,9 +3,6 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-const ALGOLIA_API_ID = process.env.ALGOLIA_API_ID;
-const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY;
-const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
 
 const _ = require('lodash')
 
@@ -20,14 +17,6 @@ const getComponent = type =>
     ? path.resolve(`src/templates/${type}.js`)
     : path.resolve(`src/templates/pages.js`)
 
-
-// Only initialize Algolia if credentials are provided
-let client, index;
-if (ALGOLIA_API_ID && ALGOLIA_API_KEY && ALGOLIA_INDEX_NAME) {
-  const algoliasearch = require('algoliasearch');
-  client = algoliasearch(ALGOLIA_API_ID, ALGOLIA_API_KEY);
-  index = client.initIndex(ALGOLIA_INDEX_NAME);
-}
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -166,9 +155,3 @@ exports.createPages = ({ actions, graphql }) => {
   })//end promise
 }
 
-//empty algolia search to prevent double posts declaration
-exports.onPreBuild = () => {
-  if (index) {
-    index.clearObjects();
-  }
-}
